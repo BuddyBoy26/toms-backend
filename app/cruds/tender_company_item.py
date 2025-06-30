@@ -6,17 +6,17 @@ from app.schemas.tender_company_item import (
     TenderCompanyItemUpdate,
 )
 
-def get_items(db: Session, skip: int = 0, limit: int = 100):
+def get_tender_company_items(db: Session, skip: int = 0, limit: int = 100):
     return db.query(TenderCompanyItem).offset(skip).limit(limit).all()
 
-def get_item(db: Session, item_id: int):
+def get_tender_company_item(db: Session, item_id: int):
     return (
         db.query(TenderCompanyItem)
         .filter(TenderCompanyItem.id == item_id)
         .first()
     )
 
-def create_item(db: Session, in_i: TenderCompanyItemCreate):
+def create_tender_company_item(db: Session, in_i: TenderCompanyItemCreate):
     parent = get_tendering_entry(db, in_i.tendering_companies_id)
     if not parent:
         return None, "parent_not_found"
@@ -31,8 +31,8 @@ def create_item(db: Session, in_i: TenderCompanyItemCreate):
     db.refresh(db_obj)
     return db_obj, None
 
-def update_item(db: Session, iid: int, in_i: TenderCompanyItemUpdate):
-    obj = get_item(db, iid)
+def update_tender_company_item(db: Session, iid: int, in_i: TenderCompanyItemUpdate):
+    obj = get_tender_company_item(db, iid)
     if not obj:
         return None
     for field, value in in_i.dict(exclude_unset=True).items():
@@ -41,8 +41,8 @@ def update_item(db: Session, iid: int, in_i: TenderCompanyItemUpdate):
     db.refresh(obj)
     return obj
 
-def delete_item(db: Session, iid: int):
-    obj = get_item(db, iid)
+def delete_tender_company_item(db: Session, iid: int):
+    obj = get_tender_company_item(db, iid)
     if not obj:
         return None
     db.delete(obj)

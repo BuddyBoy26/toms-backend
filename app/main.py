@@ -8,11 +8,13 @@ from .models import (
     ProductMaster,
     ItemMaster,
     Tender,
+    TenderingCompanies,
+    TenderCompanyItem
 )
 
 # DEV: auto-create tables; in prod use Alembic migrations
-# Base.metadata.create_all(bind=engine)
-# print("Database tables created.")
+Base.metadata.create_all(bind=engine)
+print("Database tables created.")
 
 app = FastAPI(title="Tender Backend")
 

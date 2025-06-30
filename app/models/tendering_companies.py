@@ -22,7 +22,7 @@ class TenderingCompanies(Base):
         Integer, primary_key=True, index=True, autoincrement=True
     )
     tender_no = Column(
-        String(50), ForeignKey("tenders.tender_id", ondelete="CASCADE"), nullable=False, index=True
+        String(50), ForeignKey("tenders.tender_no", ondelete="CASCADE"), nullable=False, index=True
     )
     company_id = Column(
         Integer,

@@ -5,6 +5,8 @@ from .product_master import ProductMaster
 from .item_master    import ItemMaster
 from .user           import User
 from .tender         import Tender
+from .tendering_companies import TenderingCompanies
+from .tender_company_item import TenderCompanyItem
 
 __all__ = [
     "CompanyMaster",
@@ -12,4 +14,6 @@ __all__ = [
     "ItemMaster",
     "User",
     "Tender",
+    "TenderingCompanies",
+    "TenderCompanyItem"
 ]
