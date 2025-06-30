@@ -7,6 +7,7 @@ from .user           import User
 from .tender         import Tender
 from .tendering_companies import TenderingCompanies
 from .tender_company_item import TenderCompanyItem
+from .order_detail import OrderDetail
 
 __all__ = [
     "CompanyMaster",
@@ -15,5 +16,6 @@ __all__ = [
     "User",
     "Tender",
     "TenderingCompanies",
-    "TenderCompanyItem"
+    "TenderCompanyItem",
+    "OrderDetail"
 ]

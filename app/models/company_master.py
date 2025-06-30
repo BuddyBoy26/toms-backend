@@ -15,6 +15,12 @@ class CompanyMaster(Base):
     cascade="all, delete-orphan",
     )
 
+    orders = relationship(
+        "OrderDetail",
+        back_populates="company",
+        cascade="all, delete-orphan"
+    )
+
     def __repr__(self) -> str:
         return (
             f"<CompanyMaster("
@@ -22,3 +28,4 @@ class CompanyMaster(Base):
             f"company_name={self.company_name!r}, "
             f"business_description={self.business_description!r})>"
         )
+    
