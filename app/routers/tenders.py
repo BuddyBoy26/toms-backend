@@ -7,7 +7,7 @@ from ..routers.auth import get_current_user
 
 from ..database import get_db
 
-router = APIRouter()
+router = APIRouter(prefix="/tenders", tags=["tenders"])
 
 @router.get("/tenders", response_model=list[schemas.TenderRead])
 def list_tenders(skip: int=0, limit: int=50, db: Session=Depends(get_db)):

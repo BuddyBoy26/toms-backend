@@ -1,6 +1,9 @@
 from sqlalchemy.orm import Session
 from app.models.company_master import CompanyMaster
-from app.schemas.company_master import CompanyMasterCreate, CompanyMasterUpdate
+from app.schemas.company_master import (
+    CompanyMasterCreate,
+    CompanyMasterUpdate,
+)
 
 def get_companies(db: Session, skip: int = 0, limit: int = 100):
     return db.query(CompanyMaster).offset(skip).limit(limit).all()

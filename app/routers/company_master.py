@@ -9,11 +9,7 @@ from app.models.user import User
 
 router = APIRouter(prefix="/companies", tags=["companies"])
 
-@router.get(
-    "/",
-    response_model=list[schemas.CompanyMasterRead],
-    summary="List companies (auth required)",
-)
+@router.get("/", response_model=list[schemas.CompanyMasterRead])
 def list_companies(
     skip: int = 0,
     limit: int = 50,
@@ -26,7 +22,6 @@ def list_companies(
     "/",
     response_model=schemas.CompanyMasterRead,
     status_code=status.HTTP_201_CREATED,
-    summary="Create a new company (auth required)",
 )
 def create_company(
     c: schemas.CompanyMasterCreate,
@@ -35,11 +30,7 @@ def create_company(
 ):
     return cruds.create_company(db, c)
 
-@router.get(
-    "/{cid}",
-    response_model=schemas.CompanyMasterRead,
-    summary="Get a company by ID (auth required)",
-)
+@router.get("/{cid}", response_model=schemas.CompanyMasterRead)
 def read_company(
     cid: int,
     db: Session = Depends(get_db),
@@ -47,14 +38,10 @@ def read_company(
 ):
     obj = cruds.get_company(db, cid)
     if not obj:
-        raise HTTPException(status_code=404, detail="Company not found")
+        raise HTTPException(404, "Company not found")
     return obj
 
-@router.put(
-    "/{cid}",
-    response_model=schemas.CompanyMasterRead,
-    summary="Replace a company (auth required)",
-)
+@router.put("/{cid}", response_model=schemas.CompanyMasterRead)
 def replace_company(
     cid: int,
     c: schemas.CompanyMasterCreate,
@@ -63,19 +50,14 @@ def replace_company(
 ):
     obj = cruds.get_company(db, cid)
     if not obj:
-        raise HTTPException(status_code=404, detail="Company not found")
-    # full replace
+        raise HTTPException(404, "Company not found")
     obj.company_name = c.company_name
     obj.business_description = c.business_description
     db.commit()
     db.refresh(obj)
     return obj
 
-@router.patch(
-    "/{cid}",
-    response_model=schemas.CompanyMasterRead,
-    summary="Update a company (partial, auth required)",
-)
+@router.patch("/{cid}", response_model=schemas.CompanyMasterRead)
 def update_company(
     cid: int,
     c: schemas.CompanyMasterUpdate,
@@ -84,14 +66,10 @@ def update_company(
 ):
     obj = cruds.update_company(db, cid, c)
     if not obj:
-        raise HTTPException(status_code=404, detail="Company not found")
+        raise HTTPException(404, "Company not found")
     return obj
 
-@router.delete(
-    "/{cid}",
-    response_model=schemas.CompanyMasterRead,
-    summary="Delete a company (auth required)",
-)
+@router.delete("/{cid}", response_model=schemas.CompanyMasterRead)
 def delete_company(
     cid: int,
     db: Session = Depends(get_db),
@@ -99,5 +77,5 @@ def delete_company(
 ):
     obj = cruds.delete_company(db, cid)
     if not obj:
-        raise HTTPException(status_code=404, detail="Company not found")
+        raise HTTPException(404, "Company not found")
     return obj

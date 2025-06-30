@@ -9,6 +9,12 @@ class CompanyMaster(Base):
     company_name = Column(String(255), nullable=False, index=True)
     business_description = Column(Text, nullable=False)
 
+    products = relationship(
+    "ProductMaster",
+    back_populates="company",
+    cascade="all, delete-orphan",
+    )
+
     def __repr__(self) -> str:
         return (
             f"<CompanyMaster("

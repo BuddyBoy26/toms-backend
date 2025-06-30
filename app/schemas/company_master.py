@@ -1,4 +1,6 @@
 from pydantic import BaseModel
+from typing import List
+from .product_master import ProductMasterRead  # forward import
 
 class CompanyMasterBase(BaseModel):
     company_name: str
@@ -15,6 +17,7 @@ class CompanyMasterUpdate(BaseModel):
 
 class CompanyMasterRead(CompanyMasterBase):
     company_id: int
+    products: List[ProductMasterRead] = []
 
     class Config:
         from_attributes = True
