@@ -1,16 +1,24 @@
 from sqlalchemy import Column, String, Text, Date, Numeric, Integer
+from sqlalchemy.orm import relationship
 from ..database import Base
 
 class Tender(Base):
     __tablename__ = "tenders"
 
     tender_id           = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    tender_no           = Column(String(50), index=True)
+    tender_no           = Column(String(50), index=True, unique=True, nullable=False)
     tender_description  = Column(Text, nullable=False)
     tender_date         = Column(Date, nullable=False)
-    closing_date        = Column(Date, nullable=False)
-    tender_fees         = Column(Numeric(12,2), nullable=False)
+    closing_date        = Column(Date, nullable=True)
+    tender_fees         = Column(Numeric(12,2), nullable=True)
     bond_guarantee_amt  = Column(Numeric(12,2), nullable=True)
+
+    tendering_companies = relationship(
+        "TenderingCompanies",
+        back_populates="tender",
+        cascade="all, delete-orphan",
+    )
+
 
     def __repr__(self) -> str:
         return (

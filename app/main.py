@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from .database import engine, Base
-from .routers import health, tender, auth, company_master, item_master, product_master
+from .routers import health, tender, auth, company_master, item_master, product_master, tendering_companies, tender_company_item
 from .models import (
     User,
     CompanyMaster,
@@ -11,8 +11,8 @@ from .models import (
 )
 
 # DEV: auto-create tables; in prod use Alembic migrations
-Base.metadata.create_all(bind=engine)
-print("Database tables created.")
+# Base.metadata.create_all(bind=engine)
+# print("Database tables created.")
 
 app = FastAPI(title="Tender Backend")
 
@@ -23,6 +23,8 @@ app.include_router(tender.router, prefix="/api")
 app.include_router(product_master.router, prefix="/api")
 app.include_router(company_master.router, prefix="/api")
 app.include_router(item_master.router, prefix="/api")
+app.include_router(tendering_companies.router, prefix="/api")
+app.include_router(tender_company_item.router, prefix="/api")
 
 if __name__ == "__main__":
     import uvicorn
