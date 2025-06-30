@@ -1,13 +1,23 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String, Text, Date, Numeric, Integer
 from ..database import Base
-import datetime
 
 class Tender(Base):
     __tablename__ = "tenders"
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String(200), nullable=False)
-    description = Column(Text, nullable=True)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
-    created_by_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    created_by = relationship("User", back_populates="tenders")
+
+    tender_id           = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    tender_no           = Column(String(50), index=True)
+    tender_description  = Column(Text, nullable=False)
+    tender_date         = Column(Date, nullable=False)
+    closing_date        = Column(Date, nullable=False)
+    tender_fees         = Column(Numeric(12,2), nullable=False)
+    bond_guarantee_amt  = Column(Numeric(12,2), nullable=True)
+
+    def __repr__(self) -> str:
+        return (
+            f"<Tender(tender_no={self.tender_no!r}, "
+            f"tender_description={self.tender_description!r}, "
+            f"tender_date={self.tender_date!r}, "
+            f"closing_date={self.closing_date!r}, "
+            f"tender_fees={self.tender_fees!r}, "
+            f"bond_guarantee_amt={self.bond_guarantee_amt!r})>"
+        )

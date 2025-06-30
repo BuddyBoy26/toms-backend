@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
-from ..database import Base, relationship
+from sqlalchemy.orm import relationship
+from ..database import Base
 
 class ProductMaster(Base):
     __tablename__ = "product_master"
@@ -14,6 +15,12 @@ class ProductMaster(Base):
         index=True,
     )
     company = relationship("CompanyMaster", back_populates="products")
+    items = relationship(
+        "ItemMaster",
+        back_populates="product",
+        cascade="all, delete-orphan",
+    )
+
 
     def __repr__(self) -> str:
         return (
