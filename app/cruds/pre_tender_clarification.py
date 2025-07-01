@@ -7,17 +7,17 @@ from app.schemas.pre_tender_clarification import (
 )
 from app.cruds.tendering_companies import get_tendering_entry
 
-def get_pre_ptcs(db: Session, skip: int = 0, limit: int = 100):
+def get_pre_tender_clarifications(db: Session, skip: int = 0, limit: int = 100):
     return db.query(PreTenderClarification).offset(skip).limit(limit).all()
 
-def get_pre_ptc(db: Session, ptc_id: int):
+def get_pre_tender_clarification(db: Session, ptc_id: int):
     return (
         db.query(PreTenderClarification)
           .filter(PreTenderClarification.pre_ptc_id == ptc_id)
           .first()
     )
 
-def create_pre_ptc(
+def create_pre_tender_clarification(
     db: Session,
     in_ptc: PreTenderClarificationCreate
 ):
@@ -31,8 +31,8 @@ def create_pre_ptc(
     db.refresh(db_obj)
     return db_obj, None
 
-def update_pre_ptc(db: Session, ptc_id: int, in_ptc: PreTenderClarificationUpdate):
-    obj = get_pre_ptc(db, ptc_id)
+def update_pre_tender_clarification(db: Session, ptc_id: int, in_ptc: PreTenderClarificationUpdate):
+    obj = get_pre_tender_clarification(db, ptc_id)
     if not obj:
         return None
     for field, value in in_ptc.dict(exclude_unset=True).items():
@@ -41,15 +41,15 @@ def update_pre_ptc(db: Session, ptc_id: int, in_ptc: PreTenderClarificationUpdat
     db.refresh(obj)
     return obj
 
-def delete_pre_ptc(db: Session, ptc_id: int):
-    obj = get_pre_ptc(db, ptc_id)
+def delete_pre_tender_clarification(db: Session, ptc_id: int):
+    obj = get_pre_tender_clarification(db, ptc_id)
     if not obj:
         return None
     db.delete(obj)
     db.commit()
     return obj
 
-def list_outstanding_pre_ptcs(db: Session):
+def list_outstanding_pre_tender_clarifications(db: Session):
     today = date.today()
     return (
         db.query(PreTenderClarification)
