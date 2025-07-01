@@ -9,6 +9,7 @@ from .tendering_companies import TenderingCompanies
 from .tender_company_item import TenderCompanyItem
 from .order_detail import OrderDetail
 from .order_item_detail import OrderItemDetail
+from .performance_guarantee import PerformanceGuarantee
 
 __all__ = [
     "CompanyMaster",
@@ -19,5 +20,7 @@ __all__ = [
     "TenderingCompanies",
     "TenderCompanyItem",
     "OrderDetail",
-    "OrderItemDetail"
+    "OrderItemDetail",
+    "PerformanceGuarantee"
 ]
+

@@ -58,6 +58,16 @@ class OrderDetail(Base):
         back_populates="order",
         cascade="all, delete-orphan",
     )
+    performance_guarantees = relationship(
+        "PerformanceGuarantee",
+        back_populates="order",
+        cascade="all, delete-orphan",
+    )
+    material_performance_guarantees = relationship(
+        "MaterialPerformanceGuarantee",
+        back_populates="order",
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self) -> str:
         return (
