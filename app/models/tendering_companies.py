@@ -58,6 +58,18 @@ class TenderingCompanies(Base):
         back_populates="tendering_company",
         cascade="all, delete-orphan",
     )
+    post_tender_clarifications = relationship(
+        "PostTenderClarification",
+        back_populates="tendering_company",
+        cascade="all, delete-orphan",
+        order_by="PostTenderClarification.ptc_no"
+    )
+    pre_tender_clarifications = relationship(
+        "PreTenderClarification",
+        back_populates="tendering_company",
+        cascade="all, delete-orphan",
+        order_by="PreTenderClarification.pre_ptc_no"
+    )
 
 
     def __repr__(self) -> str:
