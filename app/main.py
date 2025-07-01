@@ -11,7 +11,7 @@ from .models import (
 )
 
 # DEV: auto-create tables; in prod use Alembic migrations
-Base.metadata.create_all(bind=engine)
+# Base.metadata.create_all(bind=engine)
 print("Database tables created.")
 
 app = FastAPI(title="Tender Backend")

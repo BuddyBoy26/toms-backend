@@ -53,7 +53,7 @@ from .tender_company_item import (
     TenderCompanyItemCreate, TenderCompanyItemRead, TenderCompanyItemUpdate
 )
 from .tender import (
-    TenderCreate, TenderRead, TenderUpdate
+    TenderBase, TenderCreate, TenderRead, TenderUpdate
 )
 from .tendering_companies import (
     TenderingCompaniesCreate, TenderingCompaniesRead, TenderingCompaniesUpdate
@@ -83,6 +83,6 @@ __all__ = [
     "PreTenderClarificationCreate", "PreTenderClarificationRead", "PreTenderClarificationUpdate",
     "ProductMasterCreate", "ProductMasterRead", "ProductMasterUpdate",
     "TenderCompanyItemCreate", "TenderCompanyItemRead", "TenderCompanyItemUpdate",
-    "TenderCreate", "TenderRead", "TenderUpdate",
+    "TenderBase", "TenderCreate", "TenderRead", "TenderUpdate",
     "TenderingCompaniesCreate", "TenderingCompaniesRead", "TenderingCompaniesUpdate"
 ]

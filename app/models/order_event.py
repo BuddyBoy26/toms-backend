@@ -12,7 +12,7 @@ class OrderEvent(Base):
         nullable=False,
         index=True,
     )
-    date           = Column(Date, nullable=False, index=True)
+    event_date           = Column(Date, nullable=False, index=True)
     event          = Column(String(255), nullable=False)
     remarks        = Column(Text, nullable=True)
 
