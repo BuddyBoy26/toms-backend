@@ -16,6 +16,11 @@ class ItemMaster(Base):
     hs_code = Column(String(20), nullable=False, index=True)
 
     product = relationship("ProductMaster", back_populates="items")
+    order_items = relationship(
+        "OrderItemDetail",
+        back_populates="item_master",
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self) -> str:
         return (

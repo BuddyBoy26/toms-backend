@@ -8,6 +8,7 @@ from .tender         import Tender
 from .tendering_companies import TenderingCompanies
 from .tender_company_item import TenderCompanyItem
 from .order_detail import OrderDetail
+from .order_item_detail import OrderItemDetail
 
 __all__ = [
     "CompanyMaster",
@@ -17,5 +18,6 @@ __all__ = [
     "Tender",
     "TenderingCompanies",
     "TenderCompanyItem",
-    "OrderDetail"
+    "OrderDetail",
+    "OrderItemDetail"
 ]
