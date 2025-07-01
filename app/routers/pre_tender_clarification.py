@@ -5,7 +5,7 @@ from typing import List
 import app.cruds.pre_tender_clarification as cruds
 import app.schemas.pre_tender_clarification as schemas
 from ..database import get_db
-from ..routers.auth import get_current_user
+from .auth import get_current_user
 from app.models.user import User
 
 router = APIRouter(prefix="/pre-ptcs", tags=["pre-ptcs"])

@@ -31,6 +31,11 @@ class OrderItemDetail(Base):
         back_populates="order_item_detail",
         cascade="all, delete-orphan",
     )
+    delivery_procedures = relationship(
+        "DeliveryProcedure",
+        back_populates="order_item",
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self) -> str:
         return (
