@@ -68,6 +68,12 @@ class OrderDetail(Base):
         back_populates="order",
         cascade="all, delete-orphan",
     )
+    events = relationship(
+        "OrderEvent",
+        back_populates="order",
+        cascade="all, delete-orphan",
+        order_by="OrderEvent.date"
+    )
 
     def __repr__(self) -> str:
         return (

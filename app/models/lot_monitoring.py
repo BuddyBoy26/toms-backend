@@ -59,6 +59,16 @@ class LotMonitoring(Base):
     revised_date                = Column(Date, nullable=True)
 
     order_item_detail = relationship("OrderItemDetail", back_populates="lot_monitorings")
+    discrepancies = relationship(
+        "Discrepancy",
+        back_populates="lot",
+        cascade="all, delete-orphan",
+    )
+    liquidated_damages = relationship(
+        "LiquidatedDamages",
+        back_populates="lot",
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self) -> str:
         return f"<LotMonitoring(lot_id={self.lot_id!r}, order_item_detail_id={self.order_item_detail_id!r})>"

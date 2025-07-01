@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from typing import List
 from app.models.counter_guarantee import CounterGuarantee, GuaranteeTypeEnum
 from app.schemas.counter_guarantee import (
     CounterGuaranteeCreate,
