@@ -36,7 +36,8 @@ def create_mpg(
         raise HTTPException(status_code=404, detail="Order not found")
     return obj
 
-@router.get("/{mpg_id}", response_model=schemas.MaterialPerformanceGuaranteeRead])
+
+@router.get("/{mpg_id}", response_model=schemas.MaterialPerformanceGuaranteeRead)
 def read_mpg(
     mpg_id: int,
     db: Session = Depends(get_db),
@@ -47,7 +48,7 @@ def read_mpg(
         raise HTTPException(status_code=404, detail="MPG not found")
     return obj
 
-@router.put("/{mpg_id}", response_model=schemas.MaterialPerformanceGuaranteeRead])
+@router.put("/{mpg_id}", response_model=schemas.MaterialPerformanceGuaranteeRead)
 def replace_mpg(
     mpg_id: int,
     mpg: schemas.MaterialPerformanceGuaranteeCreate,
@@ -63,7 +64,7 @@ def replace_mpg(
     db.refresh(existing)
     return existing
 
-@router.patch("/{mpg_id}", response_model=schemas.MaterialPerformanceGuaranteeRead])
+@router.patch("/{mpg_id}", response_model=schemas.MaterialPerformanceGuaranteeRead)
 def update_mpg(
     mpg_id: int,
     mpg: schemas.MaterialPerformanceGuaranteeUpdate,
@@ -75,7 +76,7 @@ def update_mpg(
         raise HTTPException(status_code=404, detail="MPG not found")
     return obj
 
-@router.delete("/{mpg_id}", response_model=schemas.MaterialPerformanceGuaranteeRead])
+@router.delete("/{mpg_id}", response_model=schemas.MaterialPerformanceGuaranteeRead)
 def delete_mpg(
     mpg_id: int,
     db: Session = Depends(get_db),
