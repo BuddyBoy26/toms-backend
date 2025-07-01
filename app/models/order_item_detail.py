@@ -26,6 +26,11 @@ class OrderItemDetail(Base):
 
     order        = relationship("OrderDetail",     back_populates="items")
     item_master  = relationship("ItemMaster",      back_populates="order_items")
+    lot_monitorings = relationship(
+        "LotMonitoring",
+        back_populates="order_item_detail",
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self) -> str:
         return (
