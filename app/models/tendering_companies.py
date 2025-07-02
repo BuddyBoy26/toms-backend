@@ -21,9 +21,6 @@ class TenderingCompanies(Base):
     tendering_companies_id = Column(
         Integer, primary_key=True, index=True, autoincrement=True
     )
-    tender_no = Column(
-        String(50), ForeignKey("tenders.tender_no", ondelete="CASCADE"), nullable=False, index=True, unique=True
-    )
     company_id = Column(
         Integer,
         ForeignKey("company_master.company_id", ondelete="CASCADE"),

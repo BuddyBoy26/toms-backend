@@ -9,7 +9,7 @@ from app.models.user import User
 from app.cruds.tender import get_tender
 from app.cruds.company_master import get_company
 
-router = APIRouter(prefix="/tendering", tags=["tendering"])
+router = APIRouter(tags=["tendering"])
 
 @router.get(
     "/",

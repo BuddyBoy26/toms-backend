@@ -8,7 +8,7 @@ from ..database import get_db
 from .auth import get_current_user
 from app.models.user import User
 
-router = APIRouter(prefix="/pre-ptcs", tags=["pre-ptcs"])
+router = APIRouter(tags=["pre-ptcs"])
 
 @router.get(
     "/",

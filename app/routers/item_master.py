@@ -8,7 +8,7 @@ from ..routers.auth import get_current_user
 from app.models.user import User
 from app.cruds.product_master import get_product
 
-router = APIRouter(prefix="/items", tags=["items"])
+router = APIRouter(tags=["items"])
 
 @router.get(
     "/",

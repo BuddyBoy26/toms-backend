@@ -72,7 +72,7 @@ class OrderDetail(Base):
         "OrderEvent",
         back_populates="order",
         cascade="all, delete-orphan",
-        order_by="OrderEvent.date"
+        order_by="OrderEvent.event_date"
     )
 
     def __repr__(self) -> str:

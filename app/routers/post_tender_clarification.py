@@ -8,7 +8,7 @@ from ..database import get_db
 from ..routers.auth import get_current_user
 from app.models.user import User
 
-router = APIRouter(prefix="/ptcs", tags=["ptcs"])
+router = APIRouter(tags=["ptcs"])
 
 @router.get("/", response_model=List[schemas.PostTenderClarificationRead])
 def list_ptcs(

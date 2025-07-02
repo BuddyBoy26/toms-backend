@@ -9,7 +9,7 @@ from ..routers.auth import get_current_user
 from app.models.user import User
 from app.models.counter_guarantee import GuaranteeTypeEnum
 
-router = APIRouter(prefix="/counter-guarantees", tags=["counter-guarantees"])
+router = APIRouter(tags=["counter-guarantees"])
 
 # existing CRUD endpoints...
 

@@ -8,7 +8,7 @@ from ..database import get_db
 from ..routers.auth import get_current_user
 from app.models.user import User
 
-router = APIRouter(prefix="/events", tags=["events"])
+router = APIRouter(tags=["events"])
 
 @router.get("/", response_model=List[schemas.EventRead])
 def list_events(

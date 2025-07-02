@@ -8,7 +8,7 @@ from ..database import get_db
 from ..routers.auth import get_current_user
 from app.models.user import User
 
-router = APIRouter(prefix="/discrepancies", tags=["discrepancies"])
+router = APIRouter(tags=["discrepancies"])
 
 @router.get("/", response_model=List[schemas.DiscrepancyRead])
 def list_discrepancies(

@@ -24,8 +24,8 @@ class PostTenderClarification(Base):
     ptc_reply_submission_date = Column(Date, nullable=True)
 
     # keep your existing relationships
-    tender                    = relationship("Tender", back_populates="post_tender_clarifications")
-    company                   = relationship("CompanyMaster", back_populates="post_tender_clarifications")
+    # tender                    = relationship("Tender", back_populates="post_tender_clarifications")
+    # company                   = relationship("CompanyMaster", back_populates="post_tender_clarifications")
     # new relationship into the join‐table
     tendering_company         = relationship(
         "TenderingCompanies",
