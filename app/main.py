@@ -20,12 +20,12 @@ app = FastAPI(title="Tender Backend")
 
 origins = [
     "http://localhost:3000",   # your Next.js dev server
-    # "https://your-production-domain.com",
+    "https://kkabbas.vercel.app/",
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],         # or ["*"] to allow any origin
+    allow_origins=origins,         # or ["*"] to allow any origin
     allow_credentials=True,
     allow_methods=["*"],              # GET, POST, PUT, DELETE, etc.
     allow_headers=["*"],              # Authorization, Content-Type, etc.
