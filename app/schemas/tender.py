@@ -33,6 +33,7 @@ class TenderUpdate(BaseModel):
     bond_guarantee_amt: OptionalDecimal12 = None
 
 class TenderRead(TenderBase):
+    tender_id: int  
     tender_no: str
 
     class Config:

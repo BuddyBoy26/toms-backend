@@ -24,7 +24,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,            # or ["*"] to allow any origin
+    allow_origins=["*"],         # or ["*"] to allow any origin
     allow_credentials=True,
     allow_methods=["*"],              # GET, POST, PUT, DELETE, etc.
     allow_headers=["*"],              # Authorization, Content-Type, etc.
@@ -38,7 +38,7 @@ app.include_router(delivery_procedure.router, prefix="/api/delivery_procedure")
 app.include_router(discrepancy.router, prefix="/api/discrepancy")
 app.include_router(event.router, prefix="/api/event")
 app.include_router(health.router, prefix="/api/health")
-app.include_router(item_master.router, prefix="/api/item")
+app.include_router(item_master.router, prefix="/api/item_master")
 app.include_router(liquidated_damages.router, prefix="/api/liquidated_damages")
 app.include_router(lot_monitoring.router, prefix="/api/lot_monitoring")
 app.include_router(material_performance_guarantee.router, prefix="/api/material_performance_guarantee")

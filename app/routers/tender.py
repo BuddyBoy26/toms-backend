@@ -28,29 +28,29 @@ def create_tender(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    if cruds.get_tender(db, t.tender_no):
+    if cruds.get_tender_by_no(db, t.tender_no):
         raise HTTPException(status_code=400, detail="Tender number already exists")
     return cruds.create_tender(db, t)
 
-@router.get("/{tno}", response_model=schemas.TenderRead)
+@router.get("/{tender_id}", response_model=schemas.TenderRead)
 def read_tender(
-    tno: str,
+    tender_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj = cruds.get_tender(db, tno)
+    obj = cruds.get_tender(db, tender_id)
     if not obj:
         raise HTTPException(status_code=404, detail="Tender not found")
     return obj
 
-@router.put("/{tno}", response_model=schemas.TenderRead)
+@router.put("/{tender_id}", response_model=schemas.TenderRead)
 def replace_tender(
-    tno: str,
+    tender_id: int,
     t: schemas.TenderCreate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj = cruds.get_tender(db, tno)
+    obj = cruds.get_tender(db, tender_id)
     if not obj:
         raise HTTPException(status_code=404, detail="Tender not found")
     # full replace
@@ -60,25 +60,25 @@ def replace_tender(
     db.refresh(obj)
     return obj
 
-@router.patch("/{tno}", response_model=schemas.TenderRead)
+@router.patch("/{tender_id}", response_model=schemas.TenderRead)
 def update_tender(
-    tno: str,
+    tender_id: int,
     t: schemas.TenderUpdate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj = cruds.update_tender(db, tno, t)
+    obj = cruds.update_tender(db, tender_id, t)
     if not obj:
         raise HTTPException(status_code=404, detail="Tender not found")
     return obj
 
-@router.delete("/{tno}", response_model=schemas.TenderRead)
+@router.delete("/{tender_id}", response_model=schemas.TenderRead)
 def delete_tender(
-    tno: str,
+    tender_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj = cruds.delete_tender(db, tno)
+    obj = cruds.delete_tender(db, tender_id)
     if not obj:
         raise HTTPException(status_code=404, detail="Tender not found")
     return obj
