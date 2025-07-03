@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .database import engine, Base
+import os
 from .routers import auth, company_master, counter_guarantee, delivery_procedure, discrepancy, event, health, item_master, liquidated_damages, lot_monitoring, material_performance_guarantee, order_detail, order_event, order_item_detail, performance_guarantee, post_tender_clarification, pre_tender_clarification, product_master, tender_company_item, tendering_companies, tender, user
 from .models import (
     CompanyMaster, CounterGuarantee, DeliveryProcedure, Discrepancy, Event,
@@ -57,4 +58,4 @@ app.include_router(user.router, prefix="/api/user")
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("app.main:app", host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
