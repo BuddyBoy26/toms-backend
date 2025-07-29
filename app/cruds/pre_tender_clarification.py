@@ -22,7 +22,7 @@ def create_pre_tender_clarification(
     in_ptc: PreTenderClarificationCreate
 ):
     # ensure the tender+company entry exists
-    tc = get_tendering_entry(db, in_ptc.tender_id, in_ptc.company_id)
+    tc = get_tendering_entry(db, in_ptc.tc_id)
     if not tc:
         return None, "tendering_company_not_found"
     db_obj = PreTenderClarification(**in_ptc.dict())

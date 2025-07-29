@@ -4,8 +4,7 @@ from typing import Optional
 from datetime import date
 
 class PreTenderClarificationBase(BaseModel):
-    tender_id: int
-    company_id: int
+    tc_id: int
     pre_ptc_no: int = Field(..., example=1)
     pre_ptc_ref_no: str = Field(..., example="MD-VPCN-11511-2024")
     pre_ptc_date: date = Field(..., example="2024-12-06")

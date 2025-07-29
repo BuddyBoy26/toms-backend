@@ -5,8 +5,7 @@ from app.schemas.post_tender_clarification import (
     PostTenderClarificationCreate,
     PostTenderClarificationUpdate,
 )
-from app.cruds.tender import get_tender
-from app.cruds.company_master import get_company
+from app.cruds.tendering_companies import get_tendering_entry
 
 def get_post_tender_clarifications(db: Session, skip: int = 0, limit: int = 100):
     return db.query(PostTenderClarification).offset(skip).limit(limit).all()
@@ -20,10 +19,7 @@ def get_post_tender_clarification(db: Session, ptc_id: int):
 
 def create_post_tender_clarification(db: Session, in_ptc: PostTenderClarificationCreate):
     # FK checks
-    if not get_tender(db, in_ptc.tender_id):
-        return None, "tender_not_found"
-    if not get_company(db, in_ptc.company_id):
-        return None, "company_not_found"
+    tc = get_tendering_entry(db, in_ptc.tc_id)
     db_obj = PostTenderClarification(**in_ptc.dict())
     db.add(db_obj)
     db.commit()

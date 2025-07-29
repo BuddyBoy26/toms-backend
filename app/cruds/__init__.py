@@ -19,6 +19,9 @@ from .item_master import (
 from .liquidated_damages import (
     get_liquidated_damages, get_liquidated_damage, create_liquidated_damage, update_liquidated_damage, delete_liquidated_damage
 )
+from .log import (
+    get_logs, get_log, create_log
+)
 from .lot_monitoring import (
     get_lots, get_lot, create_lot, update_lot, delete_lot
 )
@@ -81,7 +84,8 @@ __all__ = [
     "get_tender_company_items", "get_tender_company_item", "create_tender_company_item", "update_tender_company_item", "delete_tender_company_item",
     "get_tenders", "get_tender", "create_tender", "update_tender", "delete_tender",
     "get_tendering_entries", "get_tendering_entry", "create_tendering_entry", "update_tendering_entry", "delete_tendering_entry",
-    "get_user_by_email", "create_user", "update_user", "delete_user", "get_user", "get_password_hash", "verify_password"
+    "get_user_by_email", "create_user", "update_user", "delete_user", "get_user", "get_password_hash", "verify_password",
+    "get_logs", "get_log", "create_log"
 ]
 # This module imports all CRUD operations from various modules and aggregates them for easier access.
 # Each CRUD operation corresponds to a specific model and provides functions to create, read, update, and delete instances of that model.
