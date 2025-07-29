@@ -61,6 +61,12 @@ from .tendering_companies import (
 from .user import (
     UserCreate, UserRead, UserLogin
 )
+from .drawing_details import (
+    DrawingDetailsCreate, DrawingDetailsRead
+)
+from .log import (
+    LogCreate, LogRead
+)
 
 __all__ = [
     "UserCreate", "UserRead", "UserLogin",
@@ -84,5 +90,7 @@ __all__ = [
     "ProductMasterCreate", "ProductMasterRead", "ProductMasterUpdate",
     "TenderCompanyItemCreate", "TenderCompanyItemRead", "TenderCompanyItemUpdate",
     "TenderBase", "TenderCreate", "TenderRead", "TenderUpdate",
-    "TenderingCompaniesCreate", "TenderingCompaniesRead", "TenderingCompaniesUpdate"
+    "TenderingCompaniesCreate", "TenderingCompaniesRead", "TenderingCompaniesUpdate",
+    "DrawingDetailsCreate", "DrawingDetailsRead",
+    "LogCreate", "LogRead", "LogUpdate"
 ]

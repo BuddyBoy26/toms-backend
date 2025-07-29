@@ -18,7 +18,7 @@ def list_mpgs(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    return cruds.get_mpgs(db, skip, limit)
+    return cruds.get_material_performance_guarantees(db, skip, limit)
 
 @router.post(
     "/",
@@ -30,7 +30,7 @@ def create_mpg(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj, err = cruds.create_mpg(db, mpg)
+    obj, err = cruds.create_material_performance_guarantee(db, mpg)
     if err == "order_not_found":
         raise HTTPException(status_code=404, detail="Order not found")
     return obj
@@ -42,7 +42,7 @@ def read_mpg(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj = cruds.get_mpg(db, mpg_id)
+    obj = cruds.get_material_performance_guarantee(db, mpg_id)
     if not obj:
         raise HTTPException(status_code=404, detail="MPG not found")
     return obj
@@ -54,7 +54,7 @@ def replace_mpg(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    existing = cruds.get_mpg(db, mpg_id)
+    existing = cruds.get_material_performance_guarantee(db, mpg_id)
     if not existing:
         raise HTTPException(status_code=404, detail="MPG not found")
     for k, v in mpg.dict().items():
@@ -70,7 +70,7 @@ def update_mpg(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj = cruds.update_mpg(db, mpg_id, mpg)
+    obj = cruds.update_material_performance_guarantee(db, mpg_id, mpg)
     if not obj:
         raise HTTPException(status_code=404, detail="MPG not found")
     return obj
@@ -81,7 +81,7 @@ def delete_mpg(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj = cruds.delete_mpg(db, mpg_id)
+    obj = cruds.delete_material_performance_guarantee(db, mpg_id)
     if not obj:
         raise HTTPException(status_code=404, detail="MPG not found")
     return obj

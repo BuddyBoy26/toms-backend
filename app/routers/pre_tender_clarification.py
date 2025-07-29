@@ -20,7 +20,7 @@ def list_pre_ptcs(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    return cruds.get_pre_ptcs(db, skip, limit)
+    return cruds.get_pre_tender_clarifications(db, skip, limit)
 
 @router.post(
     "/",
@@ -32,7 +32,7 @@ def create_pre_ptc(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj, err = cruds.create_pre_ptc(db, ptc)
+    obj, err = cruds.create_pre_tender_clarification(db, ptc)
     if err == "tendering_company_not_found":
         raise HTTPException(status_code=404, detail="TenderingCompanies entry not found")
     return obj
@@ -46,7 +46,7 @@ def read_pre_ptc(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj = cruds.get_pre_ptc(db, ptc_id)
+    obj = cruds.get_pre_tender_clarification(db, ptc_id)
     if not obj:
         raise HTTPException(status_code=404, detail="PreTenderClarification not found")
     return obj
@@ -61,7 +61,7 @@ def replace_pre_ptc(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    existing = cruds.get_pre_ptc(db, ptc_id)
+    existing = cruds.get_pre_tender_clarification(db, ptc_id)
     if not existing:
         raise HTTPException(status_code=404, detail="PreTenderClarification not found")
     for k, v in ptc.dict().items():
@@ -80,7 +80,7 @@ def update_pre_ptc(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj = cruds.update_pre_ptc(db, ptc_id, ptc)
+    obj = cruds.update_pre_tender_clarification(db, ptc_id, ptc)
     if not obj:
         raise HTTPException(status_code=404, detail="PreTenderClarification not found")
     return obj
@@ -94,7 +94,7 @@ def delete_pre_ptc(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj = cruds.delete_pre_ptc(db, ptc_id)
+    obj = cruds.delete_pre_tender_clarification(db, ptc_id)
     if not obj:
         raise HTTPException(status_code=404, detail="PreTenderClarification not found")
     return obj
@@ -108,4 +108,4 @@ def list_outstanding_pre_ptcs(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    return cruds.list_outstanding_pre_ptcs(db)
+    return cruds.list_outstanding_pre_tender_clarifications(db)

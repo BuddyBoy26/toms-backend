@@ -17,7 +17,7 @@ def list_ptcs(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    return cruds.get_ptcs(db, skip, limit)
+    return cruds.get_post_tender_clarifications(db, skip, limit)
 
 @router.post(
     "/",
@@ -29,7 +29,7 @@ def create_ptc(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj, err = cruds.create_ptc(db, ptc)
+    obj, err = cruds.create_post_tender_clarification(db, ptc)
     if err == "tender_not_found":
         raise HTTPException(status_code=404, detail="Tender not found")
     if err == "company_not_found":
@@ -42,7 +42,7 @@ def read_ptc(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj = cruds.get_ptc(db, ptc_id)
+    obj = cruds.get_post_tender_clarification(db, ptc_id)
     if not obj:
         raise HTTPException(status_code=404, detail="PTC not found")
     return obj
@@ -54,7 +54,7 @@ def replace_ptc(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    existing = cruds.get_ptc(db, ptc_id)
+    existing = cruds.get_post_tender_clarification(db, ptc_id)
     if not existing:
         raise HTTPException(status_code=404, detail="PTC not found")
     for k, v in ptc.dict().items():
@@ -70,7 +70,7 @@ def update_ptc(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj = cruds.update_ptc(db, ptc_id, ptc)
+    obj = cruds.update_post_tender_clarification(db, ptc_id, ptc)
     if not obj:
         raise HTTPException(status_code=404, detail="PTC not found")
     return obj
@@ -81,7 +81,7 @@ def delete_ptc(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj = cruds.delete_ptc(db, ptc_id)
+    obj = cruds.delete_post_tender_clarification(db, ptc_id)
     if not obj:
         raise HTTPException(status_code=404, detail="PTC not found")
     return obj
@@ -95,4 +95,4 @@ def list_outstanding(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    return cruds.list_outstanding_ptcs(db)
+    return cruds.list_outstanding_post_tender_clarifications(db)

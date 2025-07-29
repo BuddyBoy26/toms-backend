@@ -20,6 +20,8 @@ from .tender_company_item import TenderCompanyItem
 from .tender import Tender
 from .tendering_companies import TenderingCompanies
 from .user import User
+from .drawing_details import DrawingDetails
+from .log import Log
 
 __all__ = [
     "CompanyMaster",
@@ -41,6 +43,8 @@ __all__ = [
     "Tender",
     "TenderCompanyItem",
     "TenderingCompanies",
-    "User"
+    "User",
+    "DrawingDetails",
+    "Log"
 ]
 

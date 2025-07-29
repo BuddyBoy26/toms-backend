@@ -75,6 +75,13 @@ class OrderDetail(Base):
         order_by="OrderEvent.event_date"
     )
 
+    drawings = relationship(
+    "DrawingDetails",
+    back_populates="order",
+    cascade="all, delete-orphan"
+)
+
+
     def __repr__(self) -> str:
         return (
             f"<OrderDetail(id={self.order_id!r}, po_number={self.po_number!r}, "

@@ -17,7 +17,7 @@ def list_lds(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    return cruds.get_lds(db, skip, limit)
+    return cruds.get_liquidated_damages(db, skip, limit)
 
 @router.post(
     "/",
@@ -29,7 +29,7 @@ def create_ld(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj, err = cruds.create_ld(db, ld)
+    obj, err = cruds.create_liquidated_damage(db, ld)
     if err == "lot_not_found":
         raise HTTPException(status_code=404, detail="Lot not found")
     return obj
@@ -40,7 +40,7 @@ def read_ld(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj = cruds.get_ld(db, ld_id)
+    obj = cruds.get_liquidated_damage(db, ld_id)
     if not obj:
         raise HTTPException(status_code=404, detail="LiquidatedDamages not found")
     return obj
@@ -52,7 +52,7 @@ def replace_ld(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    existing = cruds.get_ld(db, ld_id)
+    existing = cruds.get_liquidated_damage(db, ld_id)
     if not existing:
         raise HTTPException(status_code=404, detail="LiquidatedDamages not found")
     for k, v in ld.dict().items():
@@ -68,7 +68,7 @@ def update_ld(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj = cruds.update_ld(db, ld_id, ld)
+    obj = cruds.update_liquidated_damage(db, ld_id, ld)
     if not obj:
         raise HTTPException(status_code=404, detail="LiquidatedDamages not found")
     return obj
@@ -79,7 +79,7 @@ def delete_ld(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj = cruds.delete_ld(db, ld_id)
+    obj = cruds.delete_liquidated_damage(db, ld_id)
     if not obj:
         raise HTTPException(status_code=404, detail="LiquidatedDamages not found")
     return obj

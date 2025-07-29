@@ -25,6 +25,12 @@ class Tender(Base):
         cascade="all, delete-orphan"
     )
 
+    drawings = relationship(
+    "DrawingDetails",
+    back_populates="tender",
+    cascade="all, delete-orphan"
+    )
+
 
     def __repr__(self) -> str:
         return (

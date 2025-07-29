@@ -16,7 +16,7 @@ def list_items(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    return cruds.get_items(db, skip, limit)
+    return cruds.get_tender_company_items(db, skip, limit)
 
 @router.post(
     "/",
@@ -28,7 +28,7 @@ def create_item(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj, err = cruds.create_item(db, i)
+    obj, err = cruds.create_tender_company_item(db, i)
     if err == "parent_not_found":
         raise HTTPException(status_code=404, detail="Parent tendering entry not found")
     return obj
@@ -39,7 +39,7 @@ def read_item(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj = cruds.get_item(db, iid)
+    obj = cruds.get_tender_company_item(db, iid)
     if not obj:
         raise HTTPException(status_code=404, detail="Item not found")
     return obj
@@ -51,15 +51,15 @@ def replace_item(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    existing = cruds.get_item(db, iid)
+    existing = cruds.get_tender_company_item(db, iid)
     if not existing:
         raise HTTPException(status_code=404, detail="Item not found")
     # full replace—including re-defaulting discount if needed
-    obj, err = cruds.create_item(db, i)  # simpler: delete & recreate
+    obj, err = cruds.create_tender_company_item(db, i)  # simpler: delete & recreate
     if err:
         raise HTTPException(status_code=404, detail="Parent tendering entry not found")
     # delete old one
-    cruds.delete_item(db, iid)
+    cruds.delete_tender_company_item(db, iid)
     return obj
 
 @router.patch("/{iid}", response_model=schemas.TenderCompanyItemRead)
@@ -69,7 +69,7 @@ def update_item(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj = cruds.update_item(db, iid, i)
+    obj = cruds.update_tender_company_item(db, iid, i)
     if not obj:
         raise HTTPException(status_code=404, detail="Item not found")
     return obj
@@ -80,7 +80,7 @@ def delete_item(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    obj = cruds.delete_item(db, iid)
+    obj = cruds.delete_tender_company_item(db, iid)
     if not obj:
         raise HTTPException(status_code=404, detail="Item not found")
     return obj
