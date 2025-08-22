@@ -1,9 +1,10 @@
+from typing import Optional
 from pydantic import BaseModel
 
 class ItemMasterBase(BaseModel):
     product_id: int
     item_description: str
-    hs_code: str
+    hs_code: Optional[str] = None
 
 class ItemMasterCreate(ItemMasterBase):
     """All fields required to create an item."""

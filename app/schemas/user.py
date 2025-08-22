@@ -7,6 +7,7 @@ class UserBase(BaseModel):
     full_name: str | None = None
 
 class UserCreate(UserBase):
+    full_name: str
     password: str                                  # <— plain-text password from client
 
 class UserRead(UserBase):

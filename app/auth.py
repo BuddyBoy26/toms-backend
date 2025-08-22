@@ -7,7 +7,7 @@ from jose import JWTError, jwt
 # Load secrets from env (or .env)
 SECRET_KEY   = os.getenv("JWT_SECRET_KEY")
 ALGORITHM    = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
+ACCESS_TOKEN_EXPIRE_MINUTES = 60*24
 
 def create_access_token(subject: str, expires_delta: Optional[timedelta] = None):
     to_encode = {"sub": subject}

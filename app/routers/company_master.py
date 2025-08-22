@@ -53,6 +53,7 @@ def replace_company(
         raise HTTPException(404, "Company not found")
     obj.company_name = c.company_name
     obj.business_description = c.business_description
+    obj.country = c.country
     db.commit()
     db.refresh(obj)
     return obj

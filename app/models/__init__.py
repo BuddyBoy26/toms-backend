@@ -22,6 +22,7 @@ from .tendering_companies import TenderingCompanies
 from .user import User
 from .drawing_details import DrawingDetails
 from .log import Log
+from .associations import company_product
 
 __all__ = [
     "CompanyMaster",
@@ -45,6 +46,7 @@ __all__ = [
     "TenderingCompanies",
     "User",
     "DrawingDetails",
-    "Log"
+    "Log",
+    "company_product"
 ]
 

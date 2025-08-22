@@ -29,9 +29,9 @@ def create_product(
     current_user: User = Depends(get_current_user),
 ):
     # ensure the referenced company exists?
-    from app.cruds.company_master import get_company
-    if not get_company(db, p.company_id):
-        raise HTTPException(404, "Company not found")
+    # from app.cruds.company_master import get_company
+    # if not get_company(db, p.company_id):
+    #     raise HTTPException(404, "Company not found")
     return cruds.create_product(db, p)
 
 @router.get("/{pid}", response_model=schemas.ProductMasterRead)
@@ -57,7 +57,7 @@ def replace_product(
         raise HTTPException(404, "Product not found")
     # full replace
     obj.product_name = p.product_name
-    obj.company_id = p.company_id
+    # obj.company_id = p.company_id
     db.commit()
     db.refresh(obj)
     return obj
