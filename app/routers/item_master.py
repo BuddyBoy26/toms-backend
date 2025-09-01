@@ -17,11 +17,10 @@ router = APIRouter(tags=["items"])
 )
 def list_items(
     skip: int = 0,
-    limit: int = 50,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    return cruds.get_items(db, skip, limit)
+    return cruds.get_items(db, skip, limit=None)
 
 @router.post(
     "/",

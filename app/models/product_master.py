@@ -7,7 +7,7 @@ from .associations import company_product
 class ProductMaster(Base):
     __tablename__ = "product_master"
 
-    product_id = Column(Integer, primary_key=True, index=True)
+    product_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     product_name = Column(String(255), nullable=False, index=True)
 
     # Many-to-many: products <-> companies

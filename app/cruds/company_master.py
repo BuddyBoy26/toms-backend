@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from app.models.company_master import CompanyMaster
+from app.models.product_master import ProductMaster
 from app.schemas.company_master import (
     CompanyMasterCreate,
     CompanyMasterUpdate,
@@ -16,7 +17,16 @@ def get_company(db: Session, company_id: int):
     )
 
 def create_company(db: Session, in_c: CompanyMasterCreate):
-    db_obj = CompanyMaster(**in_c.dict())
+    # Extract product_ids separately
+    data = in_c.dict()
+    product_ids = data.pop("product_ids", [])
+
+    db_obj = CompanyMaster(**data)
+
+    if product_ids:
+        products = db.query(ProductMaster).filter(ProductMaster.product_id.in_(product_ids)).all()
+        db_obj.products = products
+
     db.add(db_obj)
     db.commit()
     db.refresh(db_obj)
@@ -26,8 +36,19 @@ def update_company(db: Session, cid: int, in_c: CompanyMasterUpdate):
     obj = get_company(db, cid)
     if not obj:
         return None
-    for field, value in in_c.dict(exclude_unset=True).items():
+
+    data = in_c.dict(exclude_unset=True)
+    product_ids = data.pop("product_ids", None)
+
+    # Update scalar fields
+    for field, value in data.items():
         setattr(obj, field, value)
+
+    # Update relationships if provided
+    if product_ids is not None:
+        products = db.query(ProductMaster).filter(ProductMaster.product_id.in_(product_ids)).all()
+        obj.products = products
+
     db.commit()
     db.refresh(obj)
     return obj

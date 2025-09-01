@@ -1,27 +1,30 @@
-from __future__ import annotations
 from pydantic import BaseModel, Field
 from typing import Optional, Annotated
 from decimal import Decimal
 
-# Constrained decimal for percentages (0–100 with two decimals)
-Percent = Annotated[Decimal, Field(..., ge=0, le=100, decimal_places=2)]
-OptionalPercent = Optional[Annotated[Decimal, Field(None, ge=0, le=100, decimal_places=2)]]
+Decimal12 = Annotated[Decimal, Field(..., max_digits=12, decimal_places=2)]
+Decimal5_2 = Annotated[Decimal, Field(..., max_digits=5, decimal_places=2)]
 
 class TenderCompanyItemBase(BaseModel):
     tendering_companies_id: int
-    item_no_dewa: str
-    discount_percent: OptionalPercent = None
+    item_id: int               # internal (FK to item_master.item_no)
+    item_no_dewa: str          # shown to DEWA/users
+    item_price: Decimal12
+    discount_percent: Decimal5_2
 
 class TenderCompanyItemCreate(TenderCompanyItemBase):
-    """If discount_percent is None, will default from parent."""
+    pass
 
 class TenderCompanyItemUpdate(BaseModel):
+    # All optional for PATCH
+    tendering_companies_id: Optional[int] = None
+    item_id: Optional[int] = None
     item_no_dewa: Optional[str] = None
-    discount_percent: OptionalPercent = None
+    item_price: Optional[Decimal] = Field(None, max_digits=12, decimal_places=2)
+    discount_percent: Optional[Decimal] = Field(None, max_digits=5, decimal_places=2)
 
 class TenderCompanyItemRead(TenderCompanyItemBase):
     id: int
-    discount_percent: Percent  # always set when reading
 
     class Config:
         from_attributes = True

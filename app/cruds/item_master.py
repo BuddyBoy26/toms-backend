@@ -5,8 +5,11 @@ from app.schemas.item_master import (
     ItemMasterUpdate,
 )
 
-def get_items(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(ItemMaster).offset(skip).limit(limit).all()
+def get_items(db: Session, skip: int = 0, limit: int | None = None):
+    query = db.query(ItemMaster).offset(skip)
+    if limit is not None:
+        query = query.limit(limit)
+    return query.all()
 
 def get_item(db: Session, item_id: int):
     return (

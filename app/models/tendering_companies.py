@@ -1,6 +1,7 @@
 from sqlalchemy import (
-    Column, Integer, String, Text, Date, Numeric, Enum, ForeignKey, ARRAY
+    Column, Integer, String, Text, Date, Numeric, Enum, ForeignKey
 )
+from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import relationship
 from ..database import Base
 import enum
@@ -31,24 +32,43 @@ class TenderingCompanies(Base):
         Integer, ForeignKey("tenders.tender_id", ondelete="CASCADE"), nullable=False, index=True
     )
 
-    tender_receipt_no        = Column(String(100), nullable=True)
-    tbg_no                   = Column(String(100), nullable=True)
-    tbg_issuing_bank         = Column(String(100), nullable=True)
-    tender_deposit_receipt_no= Column(String(100), nullable=True)
-    cheque_no                = Column(String(50),  nullable=True)
-    tt_ref                   = Column(String(100), nullable=True)
-    tt_date                  = Column(Date, nullable=True)
-    document_date            = Column(Date, nullable=True)
-    tbg_value                = Column(Numeric(12,2), nullable=True)
-    tbg_expiry_date          = Column(Date, nullable=True)
-    tbg_submitted_date       = Column(Date, nullable=True)
-    tbg_release_date_dewa    = Column(Date, nullable=True)
-    tbg_release_date_bank    = Column(Date, nullable=True)
-    tender_extension_dates   = Column(ARRAY(Date), nullable=True)
-    tendering_currency       = Column(Enum(CurrencyEnum), nullable=False, default=CurrencyEnum.AED)
-    discount_percent         = Column(Numeric(5,2), nullable=True)
-    remarks                  = Column(Text, nullable=True)
-    pending_status           = Column(Enum(PendingStatusEnum), nullable=False, default=PendingStatusEnum.TO_BE_RELEASED)
+    # Header / receipt section
+    tender_receipt_no         = Column(String(100), nullable=True)
+
+    # TBG details
+    tbg_no                    = Column(String(100), nullable=True)
+    tbg_issuing_bank          = Column(String(100), nullable=True)
+    tender_deposit_receipt_no = Column(String(100), nullable=True)
+    cheque_no                 = Column(String(50),  nullable=True)
+    tt_ref                    = Column(String(100), nullable=True)
+    tt_date                   = Column(Date, nullable=True)
+    document_date             = Column(Date, nullable=True)
+    tbg_value                 = Column(Numeric(12,2), nullable=True)
+    tbg_expiry_date           = Column(Date, nullable=True)
+    tbg_submitted_date        = Column(Date, nullable=True)
+    tbg_release_date_dewa     = Column(Date, nullable=True)
+    tbg_release_date_bank     = Column(Date, nullable=True)
+
+    tender_extension_dates    = Column(ARRAY(Date), nullable=True)
+    tendering_currency        = Column(Enum(CurrencyEnum), nullable=False, default=CurrencyEnum.AED)
+    discount_percent          = Column(Numeric(5,2), nullable=True)
+    remarks                   = Column(Text, nullable=True)
+    pending_status            = Column(Enum(PendingStatusEnum), nullable=False, default=PendingStatusEnum.TO_BE_RELEASED)
+
+    # ✅ NEW FIELDS (previous request)
+    debit_advice_no           = Column(String(100), nullable=True)
+    tender_bought             = Column(Integer, nullable=False, default=0)  # 0/1 boolean
+    participated              = Column(Integer, nullable=False, default=0)
+    result_saved              = Column(Integer, nullable=False, default=0)
+    evaluations_received      = Column(Integer, nullable=False, default=0)
+    memo                      = Column(Integer, nullable=False, default=0)
+    po_copies                 = Column(Integer, nullable=False, default=0)
+
+    # ✅ NEW FIELDS (Counter Guarantee Details)
+    cg_bank                   = Column(String(100), nullable=True)
+    cg_no                     = Column(String(100), nullable=True)
+    cg_date                   = Column(Date, nullable=True)
+    cg_expiry_date            = Column(Date, nullable=True)
 
     # relationships
     tender   = relationship("Tender", back_populates="tendering_companies")
@@ -70,7 +90,6 @@ class TenderingCompanies(Base):
         cascade="all, delete-orphan",
         order_by="PreTenderClarification.pre_ptc_no"
     )
-
 
     def __repr__(self) -> str:
         return (

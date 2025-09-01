@@ -1,29 +1,23 @@
-# app/schemas/tender.py
-
 from pydantic import BaseModel, Field
-from typing import Optional, Annotated
+from typing import Optional, List, Annotated
 from decimal import Decimal
 from datetime import date
 
-# Define an Annotated type for a 12-digit, 2-decimal Decimal
-Decimal12 = Annotated[
-    Decimal,
-    Field(..., max_digits=12, decimal_places=2)
-]
-# And an optional version
-OptionalDecimal12 = Optional[
-    Annotated[Decimal, Field(None, max_digits=12, decimal_places=2)]
-]
+from app.models.tender import TenderType
+
+Decimal12 = Annotated[Decimal, Field(..., max_digits=12, decimal_places=2)]
+OptionalDecimal12 = Optional[Annotated[Decimal, Field(None, max_digits=12, decimal_places=2)]]
 
 class TenderBase(BaseModel):
     tender_description: str
-    tender_date: date
-    closing_date: date
-    tender_fees: Decimal12
+    tender_date: date                         # Invitation Date
+    closing_date: Optional[date] = None       # Closing Date
+    tender_fees: OptionalDecimal12 = None
     bond_guarantee_amt: OptionalDecimal12 = None
+    tender_type: TenderType
 
 class TenderCreate(TenderBase):
-    tender_no: str  # client-supplied PK
+    tender_no: str
 
 class TenderUpdate(BaseModel):
     tender_description: Optional[str] = None
@@ -31,10 +25,14 @@ class TenderUpdate(BaseModel):
     closing_date: Optional[date] = None
     tender_fees: OptionalDecimal12 = None
     bond_guarantee_amt: OptionalDecimal12 = None
+    tender_type: Optional[TenderType] = None
+    # Only editable in the Edit page
+    extension_dates: Optional[List[date]] = None
 
 class TenderRead(TenderBase):
-    tender_id: int  
+    tender_id: int
     tender_no: str
+    extension_dates: Optional[List[date]] = None
 
     class Config:
         from_attributes = True

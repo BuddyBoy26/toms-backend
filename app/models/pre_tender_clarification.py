@@ -21,8 +21,9 @@ class PreTenderClarification(Base):
     pre_ptc_ref_no               = Column(String(100), nullable=False)
     pre_ptc_date                 = Column(Date, nullable=False)
     pre_ptc_received_date        = Column(Date, nullable=False)
-    pre_ptc_reply_required_by    = Column(Date, nullable=False)
-    pre_ptc_reply_submission_date= Column(Date, nullable=True)
+    pre_ptc_sent_date            = Column(Date, nullable=False)
+    # pre_ptc_reply_submission_date= Column(Date, nullable=True)
+
 
     tendering_company            = relationship(
         "TenderingCompanies",

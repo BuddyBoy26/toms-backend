@@ -21,6 +21,11 @@ class ItemMaster(Base):
         back_populates="item_master",
         cascade="all, delete-orphan",
     )
+    tender_company_items = relationship(
+        "TenderCompanyItem",
+        back_populates="item",
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self) -> str:
         return (

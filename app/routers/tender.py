@@ -46,7 +46,7 @@ def read_tender(
 @router.put("/{tender_id}", response_model=schemas.TenderRead)
 def replace_tender(
     tender_id: int,
-    t: schemas.TenderCreate,
+    t: schemas.TenderUpdate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):

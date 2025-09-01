@@ -9,6 +9,7 @@ from app.models.user import User
 
 router = APIRouter(tags=["companies"])
 
+
 @router.get("/", response_model=list[schemas.CompanyMasterRead])
 def list_companies(
     skip: int = 0,
@@ -17,6 +18,7 @@ def list_companies(
     current_user: User = Depends(get_current_user),
 ):
     return cruds.get_companies(db, skip, limit)
+
 
 @router.post(
     "/",
@@ -30,6 +32,7 @@ def create_company(
 ):
     return cruds.create_company(db, c)
 
+
 @router.get("/{cid}", response_model=schemas.CompanyMasterRead)
 def read_company(
     cid: int,
@@ -41,6 +44,7 @@ def read_company(
         raise HTTPException(404, "Company not found")
     return obj
 
+
 @router.put("/{cid}", response_model=schemas.CompanyMasterRead)
 def replace_company(
     cid: int,
@@ -51,12 +55,13 @@ def replace_company(
     obj = cruds.get_company(db, cid)
     if not obj:
         raise HTTPException(404, "Company not found")
-    obj.company_name = c.company_name
-    obj.business_description = c.business_description
-    obj.country = c.country
-    db.commit()
-    db.refresh(obj)
-    return obj
+
+    # Instead of updating fields manually here, delegate to CRUD
+    updated = cruds.update_company(db, cid, c)
+    if not updated:
+        raise HTTPException(404, "Company not found")
+    return updated
+
 
 @router.patch("/{cid}", response_model=schemas.CompanyMasterRead)
 def update_company(
@@ -69,6 +74,7 @@ def update_company(
     if not obj:
         raise HTTPException(404, "Company not found")
     return obj
+
 
 @router.delete("/{cid}", response_model=schemas.CompanyMasterRead)
 def delete_company(
