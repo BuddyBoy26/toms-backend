@@ -1,9 +1,15 @@
-from sqlalchemy import Column, Integer, String, Numeric, ForeignKey
+import enum
+from sqlalchemy import Column, Integer, String, Numeric, ForeignKey, Enum
 from sqlalchemy.orm import relationship
 from ..database import Base
 
 class OrderItemDetail(Base):
     __tablename__ = "order_item_details"
+
+    class CurrencyEnum(str, enum.Enum):
+        AED  = "AED"
+        EUR  = "EUR"
+        USD  = "USD"
 
     order_item_detail_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     order_id             = Column(
@@ -18,10 +24,13 @@ class OrderItemDetail(Base):
         nullable=False,
         index=True,
     )
+    
     item_description     = Column(String(500), nullable=True)
     item_no_dewa         = Column(String(100), nullable=False)
     item_quantity        = Column(Integer, nullable=False)
     item_unit_price      = Column(Numeric(14,2), nullable=False)
+    currency                   = Column(Enum(CurrencyEnum), nullable=False)
+    item_total_value      = Column(Numeric(14,2), nullable=False)
     number_of_lots       = Column(Integer, nullable=False)
 
     order        = relationship("OrderDetail",     back_populates="items")

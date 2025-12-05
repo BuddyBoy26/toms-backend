@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 from app.models.tender_company_item import TenderCompanyItem
 from app.cruds.tendering_companies import get_tendering_entry
 from app.schemas.tender_company_item import (
@@ -9,6 +10,21 @@ from app.schemas.tender_company_item import (
 def get_tender_company_items(db: Session, skip: int = 0, limit: int = 100):
     return db.query(TenderCompanyItem).offset(skip).limit(limit).all()
 
+def get_tender_company_items_by_tendering_company(
+    db: Session, 
+    tendering_companies_id: int,
+    skip: int = 0, 
+    limit: int = 100
+):
+    """Get all items for a specific tendering company"""
+    return (
+        db.query(TenderCompanyItem)
+        .filter(TenderCompanyItem.tendering_companies_id == tendering_companies_id)
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
+
 def get_tender_company_item(db: Session, item_id: int):
     return (
         db.query(TenderCompanyItem)
@@ -16,20 +32,70 @@ def get_tender_company_item(db: Session, item_id: int):
         .first()
     )
 
+def get_tender_company_item_by_unique_key(
+    db: Session, 
+    tendering_companies_id: int, 
+    item_id: int
+):
+    """Get item by unique constraint (tendering_companies_id + item_id)"""
+    return (
+        db.query(TenderCompanyItem)
+        .filter(
+            TenderCompanyItem.tendering_companies_id == tendering_companies_id,
+            TenderCompanyItem.item_id == item_id
+        )
+        .first()
+    )
+
 def create_tender_company_item(db: Session, in_i: TenderCompanyItemCreate):
     parent = get_tendering_entry(db, in_i.tendering_companies_id)
     if not parent:
         return None, "parent_not_found"
+    
+    # Check if item already exists (based on unique constraint)
+    existing = get_tender_company_item_by_unique_key(
+        db, 
+        in_i.tendering_companies_id, 
+        in_i.item_id
+    )
+    
+    if existing:
+        # Item already exists, update it instead of creating
+        for field, value in in_i.dict(exclude_unset=True).items():
+            setattr(existing, field, value)
+        db.commit()
+        db.refresh(existing)
+        return existing, None
+    
+    # Create new item
     # default discount to parent's if not provided
     dp = in_i.discount_percent if in_i.discount_percent is not None else parent.discount_percent
-    db_obj = TenderCompanyItem(
-        **in_i.dict(exclude={"discount_percent"}),
-        discount_percent=dp
-    )
-    db.add(db_obj)
-    db.commit()
-    db.refresh(db_obj)
-    return db_obj, None
+    
+    try:
+        db_obj = TenderCompanyItem(
+            **in_i.dict(exclude={"discount_percent"}),
+            discount_percent=dp
+        )
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj, None
+    except IntegrityError:
+        db.rollback()
+        # Race condition: item was created between our check and insert
+        # Try to get and update it
+        existing = get_tender_company_item_by_unique_key(
+            db, 
+            in_i.tendering_companies_id, 
+            in_i.item_id
+        )
+        if existing:
+            for field, value in in_i.dict(exclude_unset=True).items():
+                setattr(existing, field, value)
+            db.commit()
+            db.refresh(existing)
+            return existing, None
+        return None, "integrity_error"
 
 def update_tender_company_item(db: Session, iid: int, in_i: TenderCompanyItemUpdate):
     obj = get_tender_company_item(db, iid)

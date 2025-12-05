@@ -5,7 +5,7 @@ from datetime import date
 from app.models.delivery_procedure import DocReceiveStatusEnum
 
 class DeliveryProcedureBase(BaseModel):
-    lot_id: str
+    lot_id: int
     order_item_detail_id: int
     shipment_etd: Optional[date] = None
     shipment_eta: Optional[date] = None

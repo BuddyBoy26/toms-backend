@@ -13,6 +13,7 @@ class OrderItemDetailBase(BaseModel):
     item_no_dewa: str
     item_quantity: int
     item_unit_price: Price
+    currency: str
     number_of_lots: int
 
 class OrderItemDetailCreate(OrderItemDetailBase):
@@ -23,6 +24,7 @@ class OrderItemDetailUpdate(BaseModel):
     item_no_dewa: Optional[str] = None
     item_quantity: Optional[int] = None
     item_unit_price: Optional[Price] = None
+    currency: Optional[str] = None
     number_of_lots: Optional[int] = None
 
 class OrderItemDetailRead(OrderItemDetailBase):

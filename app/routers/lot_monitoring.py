@@ -36,7 +36,7 @@ def create_lot(
 
 @router.get("/{lot_id}", response_model=schemas.LotMonitoringRead)
 def read_lot(
-    lot_id: str,
+    lot_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
@@ -47,7 +47,7 @@ def read_lot(
 
 @router.put("/{lot_id}", response_model=schemas.LotMonitoringRead)
 def replace_lot(
-    lot_id: str,
+    lot_id: int,
     lot: schemas.LotMonitoringCreate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
@@ -63,7 +63,7 @@ def replace_lot(
 
 @router.patch("/{lot_id}", response_model=schemas.LotMonitoringRead)
 def update_lot(
-    lot_id: str,
+    lot_id: int,
     lot: schemas.LotMonitoringUpdate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
@@ -75,7 +75,7 @@ def update_lot(
 
 @router.delete("/{lot_id}", response_model=schemas.LotMonitoringRead)
 def delete_lot(
-    lot_id: str,
+    lot_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):

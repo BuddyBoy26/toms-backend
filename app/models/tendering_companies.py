@@ -17,6 +17,7 @@ class PendingStatusEnum(str, enum.Enum):
     RELEASED      = "Released (By DEWA)"
 
 class TenderingCompanies(Base):
+    # Header / receipt section
     __tablename__ = "tendering_companies"
 
     tendering_companies_id = Column(
@@ -31,44 +32,60 @@ class TenderingCompanies(Base):
     tender_id = Column(
         Integer, ForeignKey("tenders.tender_id", ondelete="CASCADE"), nullable=False, index=True
     )
-
-    # Header / receipt section
     tender_receipt_no         = Column(String(100), nullable=True)
+    debit_advice_no           = Column(String(100), nullable=True)
+    debit_advice_date           = Column(Date, nullable=True)
 
-    # TBG details
+    # "TBG details" to be dispalyed as subsection
+    #Frontend will have options wether tbg or credit card through integer value managed be a radio button
+    #Show if TBG is selected
+    tbg_credit_card_option   = Column(Integer, nullable=False, default=0)  # 0: TBG, 1: Credit Card
     tbg_no                    = Column(String(100), nullable=True)
     tbg_issuing_bank          = Column(String(100), nullable=True)
     tender_deposit_receipt_no = Column(String(100), nullable=True)
-    cheque_no                 = Column(String(50),  nullable=True)
-    tt_ref                    = Column(String(100), nullable=True)
-    tt_date                   = Column(Date, nullable=True)
-    document_date             = Column(Date, nullable=True)
+    tendering_currency        = Column(Enum(CurrencyEnum), nullable=False, default=CurrencyEnum.AED)
+    # cheque_no                 = Column(String(50),  nullable=True)
+    #show if credit card is selected
+    credit_card_payment_ref = Column(String(100), nullable=True)
+    remarks                   = Column(Text, nullable=True)
+    # credit_card_payment_date = Column(Date, nullable=True)
+    # credit_card_payment_amount = Column(Numeric(12,2), nullable=True)
+    # tt_ref                    = Column(String(100), nullable=True)
+    # tt_date                   = Column(Date, nullable=True)
+    # document_date             = Column(Date, nullable=True)
+    # continue with section
     tbg_value                 = Column(Numeric(12,2), nullable=True)
+    tbg_date                  = Column(Date, nullable=True)
     tbg_expiry_date           = Column(Date, nullable=True)
     tbg_submitted_date        = Column(Date, nullable=True)
     tbg_release_date_dewa     = Column(Date, nullable=True)
     tbg_release_date_bank     = Column(Date, nullable=True)
-
+    dewa_enbd_ref         = Column(String(100), nullable=True)
+    
+    #Show a table of dates on the left with an input field and add option on the right
     tender_extension_dates    = Column(ARRAY(Date), nullable=True)
-    tendering_currency        = Column(Enum(CurrencyEnum), nullable=False, default=CurrencyEnum.AED)
-    discount_percent          = Column(Numeric(5,2), nullable=True)
-    remarks                   = Column(Text, nullable=True)
-    pending_status            = Column(Enum(PendingStatusEnum), nullable=False, default=PendingStatusEnum.TO_BE_RELEASED)
+    # discount_percent          = Column(Numeric(5,2), nullable=True)
+    # pending_status            = Column(Enum(PendingStatusEnum), nullable=False, default=PendingStatusEnum.TO_BE_RELEASED)
 
-    # ✅ NEW FIELDS (previous request)
-    debit_advice_no           = Column(String(100), nullable=True)
+    # Section Counter Guarantee Details
+    cg_bank                   = Column(String(100), nullable=True)
+    cg_no                     = Column(String(100), nullable=True)
+    cg_date                   = Column(Date, nullable=True)
+    cg_expiry_date            = Column(Date, nullable=True)
+
+    # Delivery Weeks
+    delivery_commencement_weeks = Column(Integer, nullable=True)
+    delivery_completion_weeks   = Column(Integer, nullable=True)
+    
+
+    # Just a new section with 6 radio buttons
+    
     tender_bought             = Column(Integer, nullable=False, default=0)  # 0/1 boolean
     participated              = Column(Integer, nullable=False, default=0)
     result_saved              = Column(Integer, nullable=False, default=0)
     evaluations_received      = Column(Integer, nullable=False, default=0)
     memo                      = Column(Integer, nullable=False, default=0)
     po_copies                 = Column(Integer, nullable=False, default=0)
-
-    # ✅ NEW FIELDS (Counter Guarantee Details)
-    cg_bank                   = Column(String(100), nullable=True)
-    cg_no                     = Column(String(100), nullable=True)
-    cg_date                   = Column(Date, nullable=True)
-    cg_expiry_date            = Column(Date, nullable=True)
 
     # relationships
     tender   = relationship("Tender", back_populates="tendering_companies")

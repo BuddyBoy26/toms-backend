@@ -4,7 +4,7 @@ from typing import List, Optional
 from datetime import date
 
 class LiquidatedDamagesBase(BaseModel):
-    lot_id: str
+    lot_id: int
     lot_qty: int
     actual_delivery_date: Optional[date] = None
     quantities_delivered: List[int] = Field(..., example=[45, 3, 2])

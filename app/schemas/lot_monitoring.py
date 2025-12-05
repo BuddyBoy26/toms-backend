@@ -1,21 +1,22 @@
 from __future__ import annotations
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, Annotated
 from datetime import date
 from decimal import Decimal
 
 # Reusable types
-Decimal14 = Field(..., max_digits=14, decimal_places=2)
-DateOpt    = Optional[date]
-IntOpt     = Optional[int]
-StrOpt     = Optional[str]
+Decimal14 = Annotated[Decimal, Field(..., max_digits=14, decimal_places=2)]
+OptionalDecimal14 = Optional[Annotated[Decimal, Field(None, max_digits=14, decimal_places=2)]]
+DateOpt = Optional[date]
+IntOpt = Optional[int]
+StrOpt = Optional[str]
 
 class LotMonitoringBase(BaseModel):
-    lot_id: str = Field(..., example="L0001")
     order_item_detail_id: int
     shipment_no: StrOpt = None
     item_lot_no: StrOpt = None
     item_unit_price: Decimal = Decimal14
+    quantity: Decimal = Decimal14
     item_total_value: Decimal = Decimal14
     contractual_delivery_date: DateOpt = None
     inspection_call_date_tent: DateOpt = None
@@ -32,7 +33,7 @@ class LotMonitoringBase(BaseModel):
     actual_delivery_date: DateOpt = None
     delivery_note_no: StrOpt = None
     delivered_quantity: IntOpt = None
-    pending_lot_id: StrOpt = None
+    pending_lot_id: IntOpt = None
     goods_receipt_no: StrOpt = None
     delivery_delay_days: IntOpt = None
     delay_by_dewa: IntOpt = None
@@ -43,9 +44,9 @@ class LotMonitoringBase(BaseModel):
     invoice_values: StrOpt = None
     srm_invoice_no: StrOpt = None
     contractual_payment_date: DateOpt = None
-    payment_amount_received: Decimal | None = Decimal14
+    payment_amount_received: OptionalDecimal14 = None
     payment_received_date: DateOpt = None
-    commission_calculated: Decimal | None = Decimal14
+    commission_calculated: OptionalDecimal14 = None
     commission_invoice_no: StrOpt = None
     commission_invoice_date: DateOpt = None
     commission_received_date: DateOpt = None
@@ -58,13 +59,16 @@ class LotMonitoringBase(BaseModel):
     revised_date: DateOpt = None
 
 class LotMonitoringCreate(LotMonitoringBase):
-    """All fields except the lot_id may be generated or provided by client."""
+    """All fields may be provided by client."""
+    pass
 
 class LotMonitoringUpdate(BaseModel):
+    order_item_detail_id: IntOpt = None
     shipment_no: StrOpt = None
     item_lot_no: StrOpt = None
-    item_unit_price: Decimal | None = Decimal14
-    item_total_value: Decimal | None = Decimal14
+    item_unit_price: OptionalDecimal14 = None
+    quantity: OptionalDecimal14 = None
+    item_total_value: OptionalDecimal14 = None
     contractual_delivery_date: DateOpt = None
     inspection_call_date_tent: DateOpt = None
     inspection_call_date_act: DateOpt = None
@@ -80,7 +84,7 @@ class LotMonitoringUpdate(BaseModel):
     actual_delivery_date: DateOpt = None
     delivery_note_no: StrOpt = None
     delivered_quantity: IntOpt = None
-    pending_lot_id: StrOpt = None
+    pending_lot_id: IntOpt = None
     goods_receipt_no: StrOpt = None
     delivery_delay_days: IntOpt = None
     delay_by_dewa: IntOpt = None
@@ -91,9 +95,9 @@ class LotMonitoringUpdate(BaseModel):
     invoice_values: StrOpt = None
     srm_invoice_no: StrOpt = None
     contractual_payment_date: DateOpt = None
-    payment_amount_received: Decimal | None = Decimal14
+    payment_amount_received: OptionalDecimal14 = None
     payment_received_date: DateOpt = None
-    commission_calculated: Decimal | None = Decimal14
+    commission_calculated: OptionalDecimal14 = None
     commission_invoice_no: StrOpt = None
     commission_invoice_date: DateOpt = None
     commission_received_date: DateOpt = None
@@ -106,7 +110,7 @@ class LotMonitoringUpdate(BaseModel):
     revised_date: DateOpt = None
 
 class LotMonitoringRead(LotMonitoringBase):
-    lot_id: str
+    lot_id: int  # This is an Integer autoincrement in the model, not a string
 
     class Config:
         from_attributes = True

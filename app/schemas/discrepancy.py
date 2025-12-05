@@ -4,7 +4,7 @@ from typing import Optional
 from datetime import date
 
 class DiscrepancyBase(BaseModel):
-    lot_id: str
+    lot_id: int
     dewa_letter_ref: str
     letter_date: date
     pending_quantity: Optional[int] = None

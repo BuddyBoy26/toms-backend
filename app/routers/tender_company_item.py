@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 import app.cruds.tender_company_item as cruds
@@ -11,11 +11,20 @@ router = APIRouter(tags=["tender-items"])
 
 @router.get("/", response_model=list[schemas.TenderCompanyItemRead])
 def list_items(
+    tendering_companies_id: int | None = Query(None, description="Filter by tendering company ID"),
     skip: int = 0,
     limit: int = 50,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
+    """
+    List all tender company items.
+    Optionally filter by tendering_companies_id.
+    """
+    if tendering_companies_id is not None:
+        return cruds.get_tender_company_items_by_tendering_company(
+            db, tendering_companies_id, skip, limit
+        )
     return cruds.get_tender_company_items(db, skip, limit)
 
 @router.post(

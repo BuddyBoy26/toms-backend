@@ -10,7 +10,7 @@ def get_lots(db: Session, skip: int = 0, limit: int = 100):
              .limit(limit) \
              .all()
 
-def get_lot(db: Session, lot_id: str):
+def get_lot(db: Session, lot_id: int):
     return db.query(models.LotMonitoring) \
              .filter(models.LotMonitoring.lot_id == lot_id) \
              .first()
@@ -25,7 +25,7 @@ def create_lot(db: Session, in_lot: schemas.LotMonitoringCreate):
     db.refresh(db_lot)
     return db_lot, None
 
-def update_lot(db: Session, lot_id: str, data: schemas.LotMonitoringUpdate):
+def update_lot(db: Session, lot_id: int, data: schemas.LotMonitoringUpdate):
     db_lot = get_lot(db, lot_id)
     if not db_lot:
         return None
@@ -37,7 +37,7 @@ def update_lot(db: Session, lot_id: str, data: schemas.LotMonitoringUpdate):
     db.refresh(db_lot)
     return db_lot
 
-def delete_lot(db: Session, lot_id: str):
+def delete_lot(db: Session, lot_id: int):
     db_lot = get_lot(db, lot_id)
     if not db_lot:
         return None

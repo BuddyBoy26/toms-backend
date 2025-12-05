@@ -9,7 +9,7 @@ class LiquidatedDamages(Base):
 
     ld_id                     = Column(Integer, primary_key=True, index=True, autoincrement=True)
     lot_id                    = Column(
-        String(20),
+        Integer,
         ForeignKey("lot_monitoring.lot_id", ondelete="CASCADE"),
         nullable=False,
         index=True,
