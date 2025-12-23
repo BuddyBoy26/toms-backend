@@ -14,16 +14,16 @@ class Discrepancy(Base):
         nullable=False,
         index=True,
     )
-    dewa_letter_ref     = Column(String(100), nullable=False)
-    letter_date         = Column(Date, nullable=False)
-    pending_quantity    = Column(Integer, nullable=True)
+    # dewa_letter_ref     = Column(String(100), nullable=False)
+    # letter_date         = Column(Date, nullable=False)
+    # pending_quantity    = Column(Integer, nullable=True)
     unit_sl_nos         = Column(String(200), nullable=True)
     discrepancies       = Column(Text, nullable=False)
-    remarks             = Column(Text, nullable=True)
+    # remarks             = Column(Text, nullable=True)
     pending_status      = Column(Boolean, nullable=False, default=True)
-    resolution_date     = Column(Date, nullable=True)
+    # resolution_date     = Column(Date, nullable=True)
     delivery_note_no    = Column(String(100), nullable=True)
-    actual_delivery_date= Column(Date, nullable=True)
+    delivery_date= Column(Date, nullable=True)
 
     lot                 = relationship("LotMonitoring", back_populates="discrepancies")
 

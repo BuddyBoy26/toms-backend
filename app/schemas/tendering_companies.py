@@ -51,12 +51,12 @@ class TenderingCompaniesBase(BaseModel):
     delivery_completion_weeks: Optional[int] = None
 
     # Status flags (6 radio buttons / checkboxes)
-    tender_bought: bool = False
-    participated: bool = False
-    result_saved: bool = False
-    evaluations_received: bool = False
-    memo: bool = False
-    po_copies: bool = False
+    tender_bought: int
+    participated: int
+    result_saved: int
+    evaluations_received: int
+    memo: int
+    po_copies: int
 
 class TenderingCompaniesCreate(TenderingCompaniesBase):
     pass
@@ -104,12 +104,12 @@ class TenderingCompaniesUpdate(BaseModel):
     delivery_completion_weeks: Optional[int] = None
 
     # Status flags
-    tender_bought: Optional[bool] = None
-    participated: Optional[bool] = None
-    result_saved: Optional[bool] = None
-    evaluations_received: Optional[bool] = None
-    memo: Optional[bool] = None
-    po_copies: Optional[bool] = None
+    tender_bought: Optional[int] = None
+    participated: Optional[int] = None
+    result_saved: Optional[int] = None
+    evaluations_received: Optional[int] = None
+    memo: Optional[int] = None
+    po_copies: Optional[int] = None
 
 class TenderingCompaniesRead(TenderingCompaniesBase):
     tendering_companies_id: int

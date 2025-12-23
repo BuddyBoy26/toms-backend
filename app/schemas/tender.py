@@ -15,6 +15,7 @@ class TenderBase(BaseModel):
     tender_fees: OptionalDecimal12 = None
     bond_guarantee_amt: OptionalDecimal12 = None
     tender_type: TenderType
+    currency: Optional[str] = None
 
 class TenderCreate(TenderBase):
     tender_no: str
@@ -28,6 +29,7 @@ class TenderUpdate(BaseModel):
     tender_type: Optional[TenderType] = None
     # Only editable in the Edit page
     extension_dates: Optional[List[date]] = None
+    currency: Optional[str] = None
 
 class TenderRead(TenderBase):
     tender_id: int

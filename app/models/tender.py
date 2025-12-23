@@ -16,9 +16,10 @@ class Tender(Base):
     tender_description = Column(Text, nullable=False)
     tender_date        = Column(Date, nullable=False)   # Invitation Date
     closing_date       = Column(Date, nullable=True)    # Closing Date
-    tender_fees        = Column(Numeric(12, 2), nullable=True)
-    bond_guarantee_amt = Column(Numeric(12, 2), nullable=True)
+    tender_fees        = Column(Numeric(14, 4), nullable=True)
+    bond_guarantee_amt = Column(Numeric(14, 4), nullable=True)
     tender_type        = Column(Enum(TenderType), nullable=False, default=TenderType.PUBLIC)
+    currency          = Column(String(10), nullable=True)
 
     # New: multiple extension dates
     extension_dates    = Column(ARRAY(Date), nullable=True)

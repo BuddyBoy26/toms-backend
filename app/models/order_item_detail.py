@@ -1,5 +1,6 @@
+# app/models/order_item_detail.py
 import enum
-from sqlalchemy import Column, Integer, String, Numeric, ForeignKey, Enum
+from sqlalchemy import Column, Date, Integer, String, Numeric, ForeignKey, Enum
 from sqlalchemy.orm import relationship
 from ..database import Base
 
@@ -27,11 +28,15 @@ class OrderItemDetail(Base):
     
     item_description     = Column(String(500), nullable=True)
     item_no_dewa         = Column(String(100), nullable=False)
-    item_quantity        = Column(Integer, nullable=False)
-    item_unit_price      = Column(Numeric(14,2), nullable=False)
-    currency                   = Column(Enum(CurrencyEnum), nullable=False)
-    item_total_value      = Column(Numeric(14,2), nullable=False)
-    number_of_lots       = Column(Integer, nullable=False)
+    item_quantity        = Column(Numeric(14, 4), nullable=False)  # Changed from Integer to Numeric
+    item_unit_price      = Column(Numeric(14, 4), nullable=False)
+    currency             = Column(Enum(CurrencyEnum), nullable=False)
+    number_of_lots       = Column(Integer, nullable=True)  # Changed to nullable
+    
+    # Discount fields
+    discount_percent     = Column(Numeric(14, 4), nullable=True)
+    discount_amount      = Column(Numeric(14, 4), nullable=True)
+    discount_value       = Column(Numeric(14, 4), nullable=True)
 
     order        = relationship("OrderDetail",     back_populates="items")
     item_master  = relationship("ItemMaster",      back_populates="order_items")

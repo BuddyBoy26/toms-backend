@@ -67,6 +67,9 @@ from .drawing_details import (
 from .log import (
     LogCreate, LogRead
 )
+# from .itemwise_delivery_schedule import (
+#     ItemwiseDeliveryScheduleCreate, ItemwiseDeliveryScheduleRead, ItemwiseDeliveryScheduleUpdate
+# )    
 
 __all__ = [
     "UserCreate", "UserRead", "UserLogin",
@@ -92,5 +95,6 @@ __all__ = [
     "TenderBase", "TenderCreate", "TenderRead", "TenderUpdate",
     "TenderingCompaniesCreate", "TenderingCompaniesRead", "TenderingCompaniesUpdate",
     "DrawingDetailsCreate", "DrawingDetailsRead",
-    "LogCreate", "LogRead", "LogUpdate"
+    "LogCreate", "LogRead", "LogUpdate",
+    "ItemwiseDeliveryScheduleCreate", "ItemwiseDeliveryScheduleRead", "ItemwiseDeliveryScheduleUpdate",
 ]

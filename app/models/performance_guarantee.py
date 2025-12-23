@@ -29,7 +29,7 @@ class PerformanceGuarantee(Base):
     cheque_no                = Column(String(50),  nullable=True)
     tt_date                  = Column(Date, nullable=True)
     document_date            = Column(Date, nullable=True)
-    pg_value                 = Column(Numeric(12,2), nullable=False)
+    pg_value                 = Column(Numeric(14, 4), nullable=False)
     pg_expiry_date           = Column(Date, nullable=False)
     pg_submitted_date        = Column(Date, nullable=True)
     pg_return_date           = Column(Date, nullable=True)

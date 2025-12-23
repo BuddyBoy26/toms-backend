@@ -5,11 +5,31 @@ from datetime import date
 from decimal import Decimal
 from app.models.order_detail import CurrencyEnum
 
-# Constrained decimals
-Decimal14 = Annotated[Decimal, Field(..., max_digits=14, decimal_places=2)]
-OptionalDecimal14 = Optional[Annotated[Decimal, Field(None, max_digits=14, decimal_places=2)]]
-Percent5  = Annotated[Decimal, Field(..., ge=0, le=100, decimal_places=2)]
-OptionalPercent5 = Optional[Annotated[Decimal, Field(None, ge=0, le=100, decimal_places=2)]]
+# -------------------------
+# Decimal constraints
+# -------------------------
+
+Decimal14_4 = Annotated[
+    Decimal,
+    Field(..., max_digits=14, decimal_places=4)
+]
+
+OptionalDecimal14_4 = Optional[
+    Annotated[Decimal, Field(None, max_digits=14, decimal_places=4)]
+]
+
+Percent5_2 = Annotated[
+    Decimal,
+    Field(..., ge=0, le=100, max_digits=5, decimal_places=2)
+]
+
+OptionalPercent5_2 = Optional[
+    Annotated[Decimal, Field(None, ge=0, le=100, max_digits=5, decimal_places=2)]
+]
+
+# -------------------------
+# Base schema
+# -------------------------
 
 class OrderDetailBase(BaseModel):
     company_id: int
@@ -17,24 +37,51 @@ class OrderDetailBase(BaseModel):
     po_number: str
     order_description: str
     order_date: date
-    order_value: Decimal14
+
+    # ⚠ MATCH MODEL TYPO
+    po_commencemnt_date: Optional[date] = None
+
+    order_value: Decimal14_4
     currency: CurrencyEnum
-    order_value_aed: Decimal14
-    revised_value_lme: OptionalDecimal14 = None
-    revised_value_lme_aed: OptionalDecimal14 = None
-    order_confirmation_no: Optional[str] = None
-    order_confirmation_date: Optional[date] = None
-    po_confirmation_date_srm: Optional[date] = None
-    drawing_submission_date: Optional[date] = None
-    drawing_approval_date: Optional[date] = None
-    last_contractual_delivery: Optional[date] = None
-    actual_last_delivery: Optional[date] = None
+    order_value_aed: Decimal14_4
+
+    revised_value_lme: OptionalDecimal14_4 = None
+    revised_value_lme_aed: OptionalDecimal14_4 = None
+
+    kka_commission_percent: Percent5_2 = Field(default=Decimal("5.00"))
+
     old_po_id: Optional[int] = None
-    kka_commission_percent: Percent5 = Field(default=5.00)
     no_of_consignments: Optional[int] = None
 
+    order_confirmation_no: Optional[str] = None
+    order_confirmation_letter_ref: Optional[str] = None
+    order_confirmation_date: Optional[date] = None
+    po_confirmation_date_srm: Optional[date] = None
+
+    last_contractual_delivery: Optional[date] = None
+    actual_last_delivery: Optional[date] = None
+
+    drawing_submission_date: Optional[date] = None
+    drawing_approval_date: Optional[date] = None
+    drawing_number: Optional[str] = None
+    drawing_initial_version: Optional[str] = None
+    drawing_current_version: Optional[str] = None
+    drawing_number_revised: Optional[str] = None
+
+    remarks: Optional[str] = None
+
+
+# -------------------------
+# Create
+# -------------------------
+
 class OrderDetailCreate(OrderDetailBase):
-    """All fields in Base required except old_po_id may be null."""
+    pass
+
+
+# -------------------------
+# Update
+# -------------------------
 
 class OrderDetailUpdate(BaseModel):
     company_id: Optional[int] = None
@@ -42,21 +89,40 @@ class OrderDetailUpdate(BaseModel):
     po_number: Optional[str] = None
     order_description: Optional[str] = None
     order_date: Optional[date] = None
-    order_value: OptionalDecimal14 = None
+    po_commencemnt_date: Optional[date] = None
+
+    order_value: OptionalDecimal14_4 = None
     currency: Optional[CurrencyEnum] = None
-    order_value_aed: OptionalDecimal14 = None
-    revised_value_lme: OptionalDecimal14 = None
-    revised_value_lme_aed: OptionalDecimal14 = None
+    order_value_aed: OptionalDecimal14_4 = None
+    revised_value_lme: OptionalDecimal14_4 = None
+    revised_value_lme_aed: OptionalDecimal14_4 = None
+
+    kka_commission_percent: OptionalPercent5_2 = None
+
+    old_po_id: Optional[int] = None
+    no_of_consignments: Optional[int] = None
+
     order_confirmation_no: Optional[str] = None
+    order_confirmation_letter_ref: Optional[str] = None
     order_confirmation_date: Optional[date] = None
     po_confirmation_date_srm: Optional[date] = None
-    drawing_submission_date: Optional[date] = None
-    drawing_approval_date: Optional[date] = None
+
     last_contractual_delivery: Optional[date] = None
     actual_last_delivery: Optional[date] = None
-    old_po_id: Optional[int] = None
-    kka_commission_percent: OptionalPercent5 = None
-    no_of_consignments: Optional[int] = None
+
+    drawing_submission_date: Optional[date] = None
+    drawing_approval_date: Optional[date] = None
+    drawing_number: Optional[str] = None
+    drawing_initial_version: Optional[str] = None
+    drawing_current_version: Optional[str] = None
+    drawing_number_revised: Optional[str] = None
+
+    remarks: Optional[str] = None
+
+
+# -------------------------
+# Read
+# -------------------------
 
 class OrderDetailRead(OrderDetailBase):
     order_id: int

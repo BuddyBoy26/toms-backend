@@ -31,14 +31,14 @@ class TenderCompanyItem(Base):
         doc="External DEWA item reference / line description",
     )
 
-    item_price       = Column(Numeric(12, 2), nullable=False)
-    item_quantity    = Column(Numeric(12, 2), nullable=False)
-    item_total_value = Column(Numeric(12, 2), nullable=False)
+    item_price       = Column(Numeric(14, 4), nullable=False)
+    item_quantity    = Column(Numeric(14, 4), nullable=False)
+    item_total_value = Column(Numeric(14, 4), nullable=False)
     currency         = Column(String(10), nullable=False)
 
     discount_percent = Column(Numeric(5, 2), nullable=True)
-    discount_amount  = Column(Numeric(12, 2), nullable=True)
-    discount_value   = Column(Numeric(12, 2), nullable=True)
+    discount_amount  = Column(Numeric(14, 4), nullable=True)
+    discount_value   = Column(Numeric(14, 4), nullable=True)
     
 
     # relationships

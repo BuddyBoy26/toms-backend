@@ -23,6 +23,7 @@ from .user import User
 from .drawing_details import DrawingDetails
 from .log import Log
 from .associations import company_product
+# from .itemwise_delivery_schedule import ItemwiseDeliverySchedule
 
 __all__ = [
     "CompanyMaster",
@@ -47,6 +48,7 @@ __all__ = [
     "User",
     "DrawingDetails",
     "Log",
-    "company_product"
+    "company_product",
+    # "ItemwiseDeliverySchedule",
 ]
 

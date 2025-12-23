@@ -31,6 +31,7 @@ def update_item(db: Session, iid: int, in_i: ItemMasterUpdate):
         return None
     for field, value in in_i.dict(exclude_unset=True).items():
         setattr(obj, field, value)
+    print("Updating ItemMaster:", iid, in_i.dict(exclude_unset=True))
     db.commit()
     db.refresh(obj)
     return obj

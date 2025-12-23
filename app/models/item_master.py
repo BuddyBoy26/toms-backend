@@ -13,6 +13,7 @@ class ItemMaster(Base):
         index=True,
     )
     item_description = Column(Text, nullable=False)
+    item_short_description = Column(String(255), nullable=False, index=True)
     hs_code = Column(String(20), nullable=True, index=True)
 
     product = relationship("ProductMaster", back_populates="items")

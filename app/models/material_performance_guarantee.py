@@ -29,7 +29,7 @@ class MaterialPerformanceGuarantee(Base):
     cheque_no                = Column(String(50),  nullable=True)
     tt_date                  = Column(Date, nullable=True)
     document_date            = Column(Date, nullable=True)
-    mpg_value                = Column(Numeric(12,2), nullable=False)
+    mpg_value                = Column(Numeric(14, 4), nullable=False)
     mpg_expiry_date          = Column(Date, nullable=False)
     mpg_submitted_date       = Column(Date, nullable=True)
     mpg_return_date          = Column(Date, nullable=True)
