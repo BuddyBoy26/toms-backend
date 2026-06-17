@@ -15,12 +15,10 @@ router = APIRouter(tags=["order-items"])
     summary="List order items (auth required)"
 )
 def list_order_items(
-    skip: int = 0,
-    limit: int = 50,
+    order_id: int | None = None,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
 ):
-    return cruds.get_order_items(db, skip, limit)
+    return cruds.get_order_items(db, order_id)
 
 @router.post(
     "/",

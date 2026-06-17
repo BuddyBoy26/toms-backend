@@ -9,6 +9,7 @@ Decimal12 = Annotated[Decimal, Field(..., max_digits=12, decimal_places=2)]
 OptionalDecimal12 = Optional[Annotated[Decimal, Field(None, max_digits=12, decimal_places=2)]]
 
 class TenderBase(BaseModel):
+    tender_no: str
     tender_description: str
     tender_date: date                         # Invitation Date
     closing_date: Optional[date] = None       # Closing Date
@@ -21,6 +22,7 @@ class TenderCreate(TenderBase):
     tender_no: str
 
 class TenderUpdate(BaseModel):
+    tender_no: Optional[str] = None
     tender_description: Optional[str] = None
     tender_date: Optional[date] = None
     closing_date: Optional[date] = None

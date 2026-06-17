@@ -14,10 +14,13 @@ class TenderCompanyItemBase(BaseModel):
     item_price: Decimal12
     item_quantity: Decimal12
     item_total_value: Decimal12
+    forex_rate: OptionalDecimal12 = None  # optional forex rate for non-AED currencies
+    value_aed: Decimal12
     currency: str               # e.g., "AED", "USD", "EUR"
     discount_percent: OptionalDecimal5_2 = None
     discount_amount: OptionalDecimal12 = None
     discount_value: OptionalDecimal12 = None
+    value_aed_after_discount: OptionalDecimal12 = None
 
 class TenderCompanyItemCreate(TenderCompanyItemBase):
     pass
@@ -30,10 +33,13 @@ class TenderCompanyItemUpdate(BaseModel):
     item_price: OptionalDecimal12 = None
     item_quantity: OptionalDecimal12 = None
     item_total_value: OptionalDecimal12 = None
+    forex_rate: OptionalDecimal12 = None
+    value_aed: OptionalDecimal12 = None
     currency: Optional[str] = None
     discount_percent: OptionalDecimal5_2 = None
     discount_amount: OptionalDecimal12 = None
     discount_value: OptionalDecimal12 = None
+    value_aed_after_discount: OptionalDecimal12 = None
 
 class TenderCompanyItemRead(TenderCompanyItemBase):
     id: int

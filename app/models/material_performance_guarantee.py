@@ -24,15 +24,17 @@ class MaterialPerformanceGuarantee(Base):
         index=True,
     )
     mpg_no                   = Column(String(100), nullable=False, index=True)
-    mpg_issuing_bank         = Column(String(100), nullable=True)
+    participated             = Column(Integer, nullable=False, default=0)
+    mpg_bank_or_deposit      = Column(Integer, nullable=False, default=0)  # 0/1 boolean
+    mpg_issuing_bank         = Column(String(100), nullable=True) #Either bank or deposit    Add issue date, if bank // change tt date to one of this.
     mpg_deposit_receipt_no   = Column(String(100), nullable=True)
-    cheque_no                = Column(String(50),  nullable=True)
-    tt_date                  = Column(Date, nullable=True)
-    document_date            = Column(Date, nullable=True)
+    # cheque_no                = Column(String(50),  nullable=True) # Not there
+    # tt_date                  = Column(Date, nullable=True) # Not there // Rename
+    # document_date            = Column(Date, nullable=True) # Not there 
     mpg_value                = Column(Numeric(14, 4), nullable=False)
-    mpg_expiry_date          = Column(Date, nullable=False)
+    mpg_expiry_date          = Column(Date, nullable=False) 
     mpg_submitted_date       = Column(Date, nullable=True)
-    mpg_return_date          = Column(Date, nullable=True)
+    # mpg_return_date          = Column(Date, nullable=True) # Not there
     mpg_release_date_dewa    = Column(Date, nullable=True)
     mpg_release_date_bank    = Column(Date, nullable=True)
     mpg_extension_dates      = Column(ARRAY(Date), nullable=True)

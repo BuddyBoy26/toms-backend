@@ -23,6 +23,8 @@ class TenderingCompaniesBase(BaseModel):
     tbg_issuing_bank: Optional[str] = None
     tender_deposit_receipt_no: Optional[str] = None
     tendering_currency: CurrencyEnum = CurrencyEnum.AED
+    tendering_currency_nq: CurrencyEnum = CurrencyEnum.AED
+    
     
     # Credit card fields (show if credit card is selected)
     credit_card_payment_ref: Optional[str] = None

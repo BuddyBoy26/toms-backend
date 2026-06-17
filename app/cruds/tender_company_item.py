@@ -33,11 +33,10 @@ def get_tender_company_item(db: Session, item_id: int):
     )
 
 def get_tender_company_item_by_unique_key(
-    db: Session, 
-    tendering_companies_id: int, 
+    db: Session,
+    tendering_companies_id: int,
     item_id: int
 ):
-    """Get item by unique constraint (tendering_companies_id + item_id)"""
     return (
         db.query(TenderCompanyItem)
         .filter(
@@ -51,58 +50,73 @@ def create_tender_company_item(db: Session, in_i: TenderCompanyItemCreate):
     parent = get_tendering_entry(db, in_i.tendering_companies_id)
     if not parent:
         return None, "parent_not_found"
-    
-    # Check if item already exists (based on unique constraint)
+
+    dp = (
+        in_i.discount_percent
+        if in_i.discount_percent is not None
+        else parent.discount_percent
+    )
+
     existing = get_tender_company_item_by_unique_key(
-        db, 
-        in_i.tendering_companies_id, 
+        db,
+        in_i.tendering_companies_id,
         in_i.item_id
     )
-    
+
+    # ✅ UPDATE if already exists (same tender + same item)
     if existing:
-        # Item already exists, update it instead of creating
         for field, value in in_i.dict(exclude_unset=True).items():
             setattr(existing, field, value)
+
+        # ensure discount default rule still applies
+        if in_i.discount_percent is None:
+            existing.discount_percent = dp
+
         db.commit()
         db.refresh(existing)
         return existing, None
-    
-    # Create new item
-    # default discount to parent's if not provided
-    dp = in_i.discount_percent if in_i.discount_percent is not None else parent.discount_percent
-    
+
+    # ✅ INSERT if not exists
+    db_obj = TenderCompanyItem(
+        **in_i.dict(exclude={"discount_percent"}),
+        discount_percent=dp
+    )
+
+    db.add(db_obj)
+
     try:
-        db_obj = TenderCompanyItem(
-            **in_i.dict(exclude={"discount_percent"}),
-            discount_percent=dp
-        )
-        db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
         return db_obj, None
+
     except IntegrityError:
+        # safety fallback for race condition
         db.rollback()
-        # Race condition: item was created between our check and insert
-        # Try to get and update it
+
         existing = get_tender_company_item_by_unique_key(
-            db, 
-            in_i.tendering_companies_id, 
+            db,
+            in_i.tendering_companies_id,
             in_i.item_id
         )
+
         if existing:
             for field, value in in_i.dict(exclude_unset=True).items():
                 setattr(existing, field, value)
+
             db.commit()
             db.refresh(existing)
             return existing, None
-        return None, "integrity_error"
 
+        return None, "integrity_error"
+    
 def update_tender_company_item(db: Session, iid: int, in_i: TenderCompanyItemUpdate):
     obj = get_tender_company_item(db, iid)
     if not obj:
         return None
+
     for field, value in in_i.dict(exclude_unset=True).items():
         setattr(obj, field, value)
+
     db.commit()
     db.refresh(obj)
     return obj

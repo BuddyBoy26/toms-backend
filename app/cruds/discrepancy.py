@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from fastapi.encoders import jsonable_encoder
 from app.models.discrepancy import Discrepancy
 from app.schemas.discrepancy import DiscrepancyCreate, DiscrepancyUpdate
 from app.cruds.lot_monitoring import get_lot
@@ -16,7 +17,11 @@ def get_discrepancy(db: Session, did: int):
 def create_discrepancy(db: Session, in_d: DiscrepancyCreate):
     if not get_lot(db, in_d.lot_id):
         return None, "lot_not_found"
-    db_obj = Discrepancy(**in_d.dict())
+        
+    # FIX: jsonable_encoder serializes the entire Pydantic object, safely formatting dates
+    data = jsonable_encoder(in_d)
+    db_obj = Discrepancy(**data)
+    
     db.add(db_obj)
     db.commit()
     db.refresh(db_obj)
@@ -26,8 +31,12 @@ def update_discrepancy(db: Session, did: int, in_d: DiscrepancyUpdate):
     obj = get_discrepancy(db, did)
     if not obj:
         return None
-    for field, value in in_d.dict(exclude_unset=True).items():
+        
+    # FIX: Encode the update payload excluding unset values
+    update_data = jsonable_encoder(in_d, exclude_unset=True)
+    for field, value in update_data.items():
         setattr(obj, field, value)
+        
     db.commit()
     db.refresh(obj)
     return obj

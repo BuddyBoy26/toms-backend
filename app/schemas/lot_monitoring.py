@@ -89,6 +89,7 @@ class LotMonitoringBase(BaseModel):
     commission_amount_for_delivered_quantity: OptionalDecimal14 = None
     commission_invoice_no: StrOpt = None
     commission_invoice_date: DateOpt = None
+    commission_recieved_date: DateOpt = None
     commission_amount_invoiced: OptionalDecimal14 = None
     balance_commission_amount: OptionalDecimal14 = None
 
@@ -189,6 +190,7 @@ class LotMonitoringUpdate(BaseModel):
     commission_amount_for_delivered_quantity: OptionalDecimal14 = None
     commission_invoice_no: StrOpt = None
     commission_invoice_date: DateOpt = None
+    commission_recieved_date: DateOpt = None
     commission_amount_invoiced: OptionalDecimal14 = None
     balance_commission_amount: OptionalDecimal14 = None
 

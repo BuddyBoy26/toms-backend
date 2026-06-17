@@ -44,6 +44,7 @@ class TenderingCompanies(Base):
     tbg_issuing_bank          = Column(String(100), nullable=True)
     tender_deposit_receipt_no = Column(String(100), nullable=True)
     tendering_currency        = Column(Enum(CurrencyEnum), nullable=False, default=CurrencyEnum.AED)
+    tendering_currency_nq        = Column(Enum(CurrencyEnum), nullable=False, default=CurrencyEnum.AED)
     # cheque_no                 = Column(String(50),  nullable=True)
     #show if credit card is selected
     credit_card_payment_ref = Column(String(100), nullable=True)

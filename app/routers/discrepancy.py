@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
+from fastapi.encoders import jsonable_encoder
 
 import app.cruds.discrepancy as cruds
 import app.schemas.discrepancy as schemas
@@ -55,8 +56,13 @@ def replace_discrepancy(
     existing = cruds.get_discrepancy(db, did)
     if not existing:
         raise HTTPException(status_code=404, detail="Discrepancy not found")
-    for k, v in d.dict().items():
+        
+    # FIX: Use jsonable_encoder instead of dict() to ensure dates inside 
+    # the details array are automatically converted to strings.
+    update_data = jsonable_encoder(d)
+    for k, v in update_data.items():
         setattr(existing, k, v)
+        
     db.commit()
     db.refresh(existing)
     return existing

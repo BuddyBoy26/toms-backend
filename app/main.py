@@ -13,7 +13,7 @@ from .models import (
 
 
 # DEV: auto-create tables; in prod use Alembic migrations
-# Base.metadata.drop_all(bind=engine)
+# Base.metadata.drop_all(bind=engine) #Commencement spelling error
 Base.metadata.create_all(bind=engine)
 
 print("Database tables created.")

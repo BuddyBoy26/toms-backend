@@ -102,6 +102,7 @@ class LotMonitoring(Base):
     commission_amount_for_delivered_quantity = Column(Numeric(14, 4), nullable=True)
     commission_invoice_no       = Column(String(100), nullable=True)
     commission_invoice_date     = Column(Date, nullable=True)
+    commission_recieved_date     = Column(Date, nullable=True)
     commission_amount_invoiced  = Column(Numeric(14, 4), nullable=True)
     balance_commission_amount   = Column(Numeric(14, 4), nullable=True)
 

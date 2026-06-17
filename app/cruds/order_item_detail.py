@@ -9,8 +9,13 @@ from app.schemas.order_item_detail import (
     OrderItemDetailUpdate,
 )
 
-def get_order_items(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(OrderItemDetail).offset(skip).limit(limit).all()
+def get_order_items(db: Session, order_id: int | None = None, skip: int = 0, limit: int = 100):
+    query = db.query(OrderItemDetail)
+
+    if order_id is not None:
+        query = query.filter(OrderItemDetail.order_id == order_id)
+
+    return query.offset(skip).limit(limit).all()
 
 def get_order_item(db: Session, oid: int):
     return (

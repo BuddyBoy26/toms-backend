@@ -61,14 +61,16 @@ def replace_item(
     current_user: User = Depends(get_current_user),
 ):
     existing = cruds.get_tender_company_item(db, iid)
+    print("Existing item for replacement:", existing)
     if not existing:
         raise HTTPException(status_code=404, detail="Item not found")
     # full replace—including re-defaulting discount if needed
     obj, err = cruds.create_tender_company_item(db, i)  # simpler: delete & recreate
+    print("Replace item result:", obj, err)
     if err:
         raise HTTPException(status_code=404, detail="Parent tendering entry not found")
     # delete old one
-    cruds.delete_tender_company_item(db, iid)
+    # cruds.delete_tender_company_item(db, iid)
     return obj
 
 @router.patch("/{iid}", response_model=schemas.TenderCompanyItemRead)

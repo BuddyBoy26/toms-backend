@@ -12,12 +12,13 @@ router = APIRouter(tags=["lots"])
 
 @router.get("/", response_model=List[schemas.LotMonitoringRead])
 def list_lots(
+    order_id: int | None = None,
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    return cruds.get_lots(db, skip, limit)
+    return cruds.get_lots(db, order_id, skip, limit)
 
 @router.post(
     "/",

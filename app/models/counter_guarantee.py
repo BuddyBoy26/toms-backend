@@ -21,11 +21,11 @@ class CounterGuarantee(Base):
 
     cg_id                = Column(Integer, primary_key=True, index=True, autoincrement=True)
     guarantee_type       = Column(Enum(GuaranteeTypeEnum, name="guarantee_type_enum"), nullable=False)
-    guarantee_ref_number = Column(String(100), nullable=False, index=True)  # was ref_id
+    guarantee_ref_number = Column(String(100), nullable=False, index=True)  # was ref_id // made first
     cg_date              = Column(Date, nullable=False)
     issuing_bank         = Column(String(100), nullable=True)
     expiry_date          = Column(Date, nullable=False)
-    release_date_bank    = Column(Date, nullable=True)
+    # release_date_bank    = Column(Date, nullable=True) # Not there
     remarks              = Column(Text, nullable=True)
     pending_status       = Column(Enum(PendingStatusEnum, name="cg_pending_status_enum"),
                                   nullable=False, default=PendingStatusEnum.NOT_ISSUED)

@@ -3,12 +3,13 @@ from sqlalchemy.orm import Session
 from app import models, schemas
 from app.cruds.order_item_detail import get_order_item
 
-def get_lots(db: Session, skip: int = 0, limit: int = 100):
-    # query the ORM model
-    return db.query(models.LotMonitoring) \
-             .offset(skip) \
-             .limit(limit) \
-             .all()
+def get_lots(db: Session, order_id: int | None = None, skip: int = 0, limit: int = 100):
+    query = db.query(models.LotMonitoring)
+
+    if order_id is not None:
+        query = query.filter(models.LotMonitoring.order_id == order_id)
+
+    return query.offset(skip).limit(limit).all()
 
 def get_lot(db: Session, lot_id: int):
     return db.query(models.LotMonitoring) \

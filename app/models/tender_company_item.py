@@ -34,11 +34,14 @@ class TenderCompanyItem(Base):
     item_price       = Column(Numeric(14, 4), nullable=False)
     item_quantity    = Column(Numeric(14, 4), nullable=False)
     item_total_value = Column(Numeric(14, 4), nullable=False)
+    forex_rate       = Column(Numeric(14, 4), nullable=True)  # optional forex rate for non-AED currencies
+    value_aed = Column(Numeric(14, 4), nullable=False)
     currency         = Column(String(10), nullable=False)
 
     discount_percent = Column(Numeric(5, 2), nullable=True)
     discount_amount  = Column(Numeric(14, 4), nullable=True)
     discount_value   = Column(Numeric(14, 4), nullable=True)
+    value_aed_after_discount = Column(Numeric(14, 4), nullable=True)
     
 
     # relationships
