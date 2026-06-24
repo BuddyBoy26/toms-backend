@@ -7,6 +7,7 @@ pydantic
 python-dotenv
 redis
 passlib[bcrypt]
+bcrypt==4.0.1
 python-jose[cryptography]
 pydantic[email]
 python-multipart
