@@ -61,6 +61,12 @@ from .tendering_companies import (
 from .user import (
     get_user_by_email, create_user, get_user, get_password_hash, verify_password
 )
+from .reminder import (
+    get_reminders, get_active_reminders, get_reminder, create_reminder, update_reminder, delete_reminder, upsert_reminder, delete_reminders_by_source, delete_all_auto_reminders
+)
+from .todo import (
+    get_todos_by_user, create_todo, toggle_todo, delete_todo
+)
 # from .itemwise_delivery_schedule import (
 #     get_itemwise_delivery_schedules, get_itemwise_delivery_schedule, create_itemwise_delivery_schedule
 # )
@@ -90,6 +96,9 @@ __all__ = [
     "get_user_by_email", "create_user", "update_user", "delete_user", "get_user", "get_password_hash", "verify_password",
     "get_logs", "get_log", "create_log",
     "get_itemwise_delivery_schedules", "get_itemwise_delivery_schedule", "create_itemwise_delivery_schedule",
+    "get_reminders", "get_active_reminders", "get_reminder", "create_reminder", "update_reminder", "delete_reminder", "upsert_reminder", "delete_reminders_by_source", "delete_all_auto_reminders",
+    "get_todo", "create_todo", "toggle_todo", "delete_todo",
 ]
+
 # This module imports all CRUD operations from various modules and aggregates them for easier access.
 # Each CRUD operation corresponds to a specific model and provides functions to create, read, update, and delete instances of that model.

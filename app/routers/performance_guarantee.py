@@ -99,3 +99,5 @@ def delete_pg(
     if not obj:
         raise HTTPException(status_code=404, detail="PerformanceGuarantee not found")
     return obj
+
+# This is some awesome shit. damn bhai. she confessed. what the fuck. mera dimaag aahhhh. Some more aahh

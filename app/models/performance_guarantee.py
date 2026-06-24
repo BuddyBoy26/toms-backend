@@ -43,6 +43,7 @@ class PerformanceGuarantee(Base):
                                  nullable=False,
                                  default=PBGStatusEnum.NOT_ISSUED
                                )
+    pbg_date = Column(Date, nullable=True)
 
     order                    = relationship("OrderDetail", back_populates="performance_guarantees")
 

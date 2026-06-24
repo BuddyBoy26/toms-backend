@@ -23,6 +23,8 @@ from .user import User
 from .drawing_details import DrawingDetails
 from .log import Log
 from .associations import company_product
+from .reminder import Reminder, ReminderTypeEnum
+from .todo import Todo
 # from .itemwise_delivery_schedule import ItemwiseDeliverySchedule
 
 __all__ = [
@@ -49,6 +51,8 @@ __all__ = [
     "DrawingDetails",
     "Log",
     "company_product",
+    "Reminder",
+    "Todo",
     # "ItemwiseDeliverySchedule",
 ]
 

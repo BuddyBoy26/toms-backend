@@ -21,6 +21,7 @@ class PerformanceGuaranteeBase(BaseModel):
     pg_value: float
     pg_expiry_date: date
     pg_submitted_date: Optional[date] = None
+    pbg_date: Optional[date] = None
     pg_release_date_dewa: Optional[date] = None
     pg_release_date_bank: Optional[date] = None
     pg_extension_dates: Optional[List[date]] = None
@@ -40,6 +41,7 @@ class PerformanceGuaranteeUpdate(BaseModel):
     pg_value: Optional[float] = None
     pg_expiry_date: Optional[date] = None
     pg_submitted_date: Optional[date] = None
+    pbg_date: Optional[date] = None
     pg_release_date_dewa: Optional[date] = None
     pg_release_date_bank: Optional[date] = None
     pg_extension_dates: Optional[List[date]] = None
