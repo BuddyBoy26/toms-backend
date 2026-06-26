@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .database import engine, Base
 import os
-from .routers import auth, company_master, counter_guarantee, delivery_procedure, discrepancy, event, health, item_master, liquidated_damages, lot_monitoring, material_performance_guarantee, order_detail, order_event, order_item_detail, performance_guarantee, post_tender_clarification, pre_tender_clarification, product_master, tender_company_item, tendering_companies, tender, user, drawing_details, log, reminder, todo
+from .routers import auth, company_master, counter_guarantee, delivery_procedure, discrepancy, event, health, item_master, liquidated_damages, lot_monitoring, material_performance_guarantee, order_detail, order_event, order_item_detail, performance_guarantee, post_tender_clarification, pre_tender_clarification, product_master, tender_company_item, tendering_companies, tender, user, drawing_details, log, reminder, todo, backup
 from .models import (
     CompanyMaster, CounterGuarantee, DeliveryProcedure, Discrepancy, Event,
     ItemMaster, LiquidatedDamages, LotMonitoring, MaterialPerformanceGuarantee,
@@ -58,6 +58,7 @@ app.include_router(tender.router, prefix="/api/tender")
 app.include_router(user.router, prefix="/api/user")
 app.include_router(reminder.router, prefix="/api/reminders")
 app.include_router(todo.router, prefix="/api/todos")
+app.include_router(backup.router, prefix="/api/backup")
 
 app.include_router(drawing_details.router, prefix="/api/drawing_details")
 app.include_router(log.router, prefix="/api/logs")

@@ -7,6 +7,9 @@ from decimal import Decimal
 # Reusable types
 Decimal14 = Annotated[Decimal, Field(..., max_digits=14, decimal_places=4)]
 OptionalDecimal14 = Optional[Annotated[Decimal, Field(None, max_digits=14, decimal_places=4)]]
+
+OptionalDecimalFree = Optional[Decimal]
+
 DateOpt = Optional[date]
 IntOpt = Optional[int]
 StrOpt = Optional[str]
@@ -23,6 +26,7 @@ class LotMonitoringBase(BaseModel):
     quantity: Decimal = Decimal14
     item_total_value: Decimal = Decimal14
     po_line_no: StrOpt = None
+    weeks: IntOpt = None
     contractual_delivery_date: DateOpt = None
 
     # Inspection - Before Inspection
@@ -105,9 +109,9 @@ class LotMonitoringBase(BaseModel):
     force_majeure_days: IntOpt = None
 
     actual_delay_for_ld: IntOpt = None
-    actual_ld_amount: OptionalDecimal14 = None
-    max_ld_amount: OptionalDecimal14 = None
-    chargeable_ld_amount: OptionalDecimal14 = None
+    actual_ld_amount: OptionalDecimalFree
+    max_ld_amount: OptionalDecimalFree
+    chargeable_ld_amount: OptionalDecimalFree
 
 class LotMonitoringCreate(LotMonitoringBase):
     """All fields may be provided by client."""
@@ -124,6 +128,7 @@ class LotMonitoringUpdate(BaseModel):
     quantity: OptionalDecimal14 = None
     item_total_value: OptionalDecimal14 = None
     po_line_no: StrOpt = None
+    weeks: IntOpt = None
     contractual_delivery_date: DateOpt = None
 
     # Inspection - Before Inspection
@@ -206,9 +211,9 @@ class LotMonitoringUpdate(BaseModel):
     force_majeure_days: IntOpt = None
 
     actual_delay_for_ld: IntOpt = None
-    actual_ld_amount: OptionalDecimal14 = None
-    max_ld_amount: OptionalDecimal14 = None
-    chargeable_ld_amount: OptionalDecimal14 = None
+    actual_ld_amount: OptionalDecimalFree
+    max_ld_amount: OptionalDecimalFree
+    chargeable_ld_amount: OptionalDecimalFree
 
 class LotMonitoringRead(LotMonitoringBase):
     lot_id: int  # This is an Integer autoincrement in the model, not a string

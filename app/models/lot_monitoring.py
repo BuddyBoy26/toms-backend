@@ -34,6 +34,7 @@ class LotMonitoring(Base):
     quantity                    = Column(Numeric(14, 4), nullable=False)
     item_total_value            = Column(Numeric(14, 4), nullable=False)
     po_line_no                  = Column(String(50), nullable=True)
+    weeks                       = Column(Integer, nullable=True)
     contractual_delivery_date   = Column(Date, nullable=True)
 
     # Heading: Inspection
