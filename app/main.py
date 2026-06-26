@@ -31,6 +31,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],              # GET, POST, PUT, DELETE, etc.
     allow_headers=["*"],              # Authorization, Content-Type, etc.
+    expose_headers=["Content-Disposition"],  # ← add this line
 )
 
 # Include routers
