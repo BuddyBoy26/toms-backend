@@ -3,6 +3,7 @@ import io
 from datetime import datetime, date
 from decimal import Decimal
 from typing import Any
+from enum import Enum
 
 from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
@@ -15,15 +16,24 @@ from app.models.user import User
 
 router = APIRouter(tags=["backup"])
 
-# ── Serializer ────────────────────────────────────────────────────
+# ── Custom JSON encoder ───────────────────────────────────────────
 
-def _serialize(val: Any) -> Any:
-    """Convert DB types that aren't JSON-serializable."""
-    if isinstance(val, (datetime, date)):
-        return val.isoformat()
-    if isinstance(val, Decimal):
-        return float(val)
-    return val
+class BackupEncoder(json.JSONEncoder):
+    """Handles every type that standard json.dumps can't serialize."""
+    def default(self, obj: Any) -> Any:
+        if isinstance(obj, (datetime, date)):
+            return obj.isoformat()
+        if isinstance(obj, Decimal):
+            return float(obj)
+        if isinstance(obj, Enum):
+            return obj.value
+        if isinstance(obj, bytes):
+            return obj.decode("utf-8", errors="replace")
+        # Last resort — converts uuid, custom types, etc. to string
+        try:
+            return str(obj)
+        except Exception:
+            return None
 
 
 def _dump_all_tables(db: Session) -> dict[str, list[dict]]:
@@ -34,10 +44,8 @@ def _dump_all_tables(db: Session) -> dict[str, list[dict]]:
     data: dict[str, list[dict]] = {}
     for table in table_names:
         rows = db.execute(text(f'SELECT * FROM "{table}"')).mappings().all()
-        data[table] = [
-            {k: _serialize(v) for k, v in row.items()}
-            for row in rows
-        ]
+        # Keep raw values — BackupEncoder handles serialization
+        data[table] = [dict(row) for row in rows]
     return data
 
 
@@ -57,7 +65,7 @@ def backup_json(
         "exported_at": datetime.utcnow().isoformat(),
         "tables": data,
     }
-    content = json.dumps(payload, indent=2, ensure_ascii=False)
+    content = json.dumps(payload, indent=2, ensure_ascii=False, cls=BackupEncoder)
     filename = f"kkabbas_backup_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.json"
 
     return StreamingResponse(
@@ -75,13 +83,18 @@ def _to_sql_value(val: Any) -> str:
         return "NULL"
     if isinstance(val, bool):
         return "TRUE" if val else "FALSE"
+    if isinstance(val, Enum):
+        val = val.value
     if isinstance(val, (int, float)):
         return str(val)
     if isinstance(val, Decimal):
         return str(val)
     if isinstance(val, (datetime, date)):
         return f"'{val.isoformat()}'"
-    # String — escape single quotes
+    if isinstance(val, bytes):
+        escaped = val.decode("utf-8", errors="replace").replace("'", "''")
+        return f"'{escaped}'"
+    # String and everything else — escape single quotes
     escaped = str(val).replace("'", "''")
     return f"'{escaped}'"
 
