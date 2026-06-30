@@ -87,12 +87,6 @@ def upsert_reminder(
     activation_date: date,
     order_id: Optional[int] = None,
 ) -> Reminder:
-    """
-    Insert a new reminder or update the existing one
-    (matched on the unique key: reminder_type + source_table + source_id).
-    If the reminder was previously dismissed and the underlying data changed,
-    we leave is_dismissed as-is so users aren't nagged again.
-    """
     existing = (
         db.query(Reminder)
         .filter(
@@ -103,30 +97,32 @@ def upsert_reminder(
         .first()
     )
 
-    if existing:
-        # Update mutable fields (description / po may have changed)
-        existing.po_number = po_number
-        existing.description = description
-        existing.activation_date = activation_date
-        existing.order_id = order_id
+    try:
+        if existing:
+            existing.po_number = po_number
+            existing.description = description
+            existing.activation_date = activation_date
+            existing.order_id = order_id
+            db.commit()
+            db.refresh(existing)
+            return existing
+
+        new_obj = Reminder(
+            reminder_type=reminder_type,
+            order_id=order_id,
+            po_number=po_number,
+            description=description,
+            activation_date=activation_date,
+            source_table=source_table,
+            source_id=source_id,
+        )
+        db.add(new_obj)
         db.commit()
-        db.refresh(existing)
-        return existing
-
-    new_obj = Reminder(
-        reminder_type=reminder_type,
-        order_id=order_id,
-        po_number=po_number,
-        description=description,
-        activation_date=activation_date,
-        source_table=source_table,
-        source_id=source_id,
-    )
-    db.add(new_obj)
-    db.commit()
-    db.refresh(new_obj)
-    return new_obj
-
+        db.refresh(new_obj)
+        return new_obj
+    except Exception:
+        db.rollback()
+        raise
 
 def delete_reminders_by_source(
     db: Session,
