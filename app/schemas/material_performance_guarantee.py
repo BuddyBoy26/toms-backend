@@ -16,6 +16,7 @@ class MaterialPerformanceGuaranteeBase(BaseModel):
     order_id: int
     mpg_no: str
     participated: int = Field(default=0)
+    mpg_date: Optional[date] = None
     mpg_bank_or_deposit: int = Field(default=0) # 0: Bank, 1: Deposit
     mpg_issuing_bank: Optional[str] = None
     mpg_deposit_receipt_no: Optional[str] = None
@@ -40,6 +41,7 @@ class MaterialPerformanceGuaranteeUpdate(BaseModel):
     mpg_issuing_bank: Optional[str] = None
     mpg_deposit_receipt_no: Optional[str] = None
     mpg_value: Optional[float] = None
+    mpg_date: Optional[date] = None
     mpg_expiry_date: Optional[date] = None
     mpg_submitted_date: Optional[date] = None
     mpg_release_date_dewa: Optional[date] = None

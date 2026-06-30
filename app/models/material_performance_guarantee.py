@@ -28,6 +28,7 @@ class MaterialPerformanceGuarantee(Base):
     mpg_bank_or_deposit      = Column(Integer, nullable=False, default=0)  # 0/1 boolean
     mpg_issuing_bank         = Column(String(100), nullable=True) #Either bank or deposit    Add issue date, if bank // change tt date to one of this.
     mpg_deposit_receipt_no   = Column(String(100), nullable=True)
+    mpg_date = Column(Date, nullable=True)
     # cheque_no                = Column(String(50),  nullable=True) # Not there
     # tt_date                  = Column(Date, nullable=True) # Not there // Rename
     # document_date            = Column(Date, nullable=True) # Not there 
