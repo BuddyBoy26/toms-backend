@@ -141,7 +141,7 @@ def _rule_02_pbg_to_be_issued(db: Session, stats: Dict):
             source_table="order_details",
             source_id=o.order_id,
             po_number=o.po_number,
-            description=f"PBG to be issued for {o.po_number}",
+            description=f"Order Acknowledgement and PBG to be issued for {o.po_number}",
             activation_date=date.today(),
             order_id=o.order_id,
         )
